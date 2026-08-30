@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useLayoutEffect, useRef, useState, type RefObject } from 'react'
 import StepIndicator from './components/StepIndicator'
 import PhotoUploadStep, { type Selection } from './components/PhotoUploadStep'
 import ConvertingStep from './components/ConvertingStep'
@@ -30,12 +30,42 @@ const COPY: Record<View, { title: string; subtitle: string }> = {
 
 const STEP_OF_VIEW: Record<View, number> = { upload: 1, converting: 1, decorate: 2, download: 3 }
 
+/** Shrinks `ref`'s content to fit the current viewport height, so the app never needs to scroll. */
+function useFitScale(ref: RefObject<HTMLElement | null>, deps: unknown[]) {
+  const [scale, setScale] = useState(1)
+
+  useLayoutEffect(() => {
+    const el = ref.current
+    if (!el) return
+
+    const recompute = () => {
+      const naturalHeight = el.scrollHeight
+      const availableHeight = window.innerHeight
+      setScale(naturalHeight > 0 ? Math.min(1, availableHeight / naturalHeight) : 1)
+    }
+
+    recompute()
+    const ro = new ResizeObserver(recompute)
+    ro.observe(el)
+    window.addEventListener('resize', recompute)
+    return () => {
+      ro.disconnect()
+      window.removeEventListener('resize', recompute)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps)
+
+  return scale
+}
+
 function App() {
   const [view, setView] = useState<View>('upload')
   const [selection, setSelection] = useState<Selection | null>(null)
   const [characterUrl, setCharacterUrl] = useState<string | null>(null)
   const [decorateData, setDecorateData] = useState<DecorateData>({ name: '', favorite: '', petIdx: 0, bgIdx: 0 })
   const [furthestStep, setFurthestStep] = useState(1)
+  const mainRef = useRef<HTMLElement>(null)
+  const scale = useFitScale(mainRef, [view])
 
   const handleUploadNext = (sel: Selection) => {
     if (sel.source === 'upload') {
@@ -56,15 +86,19 @@ function App() {
   const { title, subtitle } = COPY[view]
 
   return (
-    <div className="flex min-h-screen w-full justify-center bg-white">
-      <div className="relative w-full max-w-[430px] overflow-hidden bg-[#0066f2]">
+    <div className="flex h-[100svh] w-full justify-center overflow-hidden bg-white">
+      <div className="relative h-full w-full max-w-[430px] overflow-hidden bg-[#0066f2]">
         <img
           src={bgScene}
           alt=""
           className="pointer-events-none absolute top-[16%] left-1/2 w-full min-w-[110%] -translate-x-1/2 select-none"
         />
 
-        <main className="relative z-10 flex min-h-screen flex-col items-center gap-6 px-5 pt-8 pb-10">
+        <main
+          ref={mainRef}
+          style={{ transform: `scale(${scale})`, transformOrigin: 'top center' }}
+          className="relative z-10 flex w-full flex-col items-center gap-6 px-5 pt-8 pb-10"
+        >
           <StepIndicator current={STEP_OF_VIEW[view]} reachable={furthestStep} onStepClick={handleStepClick} />
 
           <div className="flex flex-col items-center gap-2 text-center text-white">
