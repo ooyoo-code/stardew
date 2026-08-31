@@ -37,7 +37,6 @@
   }
   .page{
     width:100%;
-    max-width:402px;
     min-height:100vh;
     min-height:100dvh;
     background:var(--sky-pale);
@@ -329,60 +328,45 @@
     color:#1c1c1c;
   }
 
-  .experience-info{
-    background:#fff;
-    border-radius:4px;
+  .card-2-empty{
+    background:#f6ffeb;
+    border:3px solid #1c1c1c;
+    border-radius:2px;
+    min-height:150px;
     margin-bottom:22px;
+    box-shadow:4px 4px 0 rgba(0,0,0,.18);
   }
-  .experience-info .info-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    gap:10px;
-    padding:14px 4px;
-    border-bottom:2px dashed #cfcfcf;
-  }
-  .experience-info .info-row:last-child{ border-bottom:none; }
-  .experience-info .label{
-    font-family:'Galmuri11', sans-serif;
-    font-weight:700;
-    font-size:12.5px;
-    color:var(--label-blue);
-    flex:0 0 auto;
-    padding-top:2px;
-    white-space:nowrap;
-  }
-  .experience-info .value{
-    text-align:right;
-    font-size:12px;
-    color:#2a2a2a;
-    line-height:1.7;
-  }
-  .experience-info .value b{ font-weight:800; }
 
   /* ===== BACK BUTTON ===== */
   .back-btn-wrap{
     display:flex;
     justify-content:center;
-    margin:6px 0 30px;
+    margin:10px 0 30px;
   }
   .back-btn{
     position:relative;
-    width:64%;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:10px 24px;
+    border-radius:14px;
+    border:4px solid #5c2e00;
+    background:linear-gradient(180deg, #f5a623 0%, #d4870a 50%, #b8710a 100%);
+    box-shadow:
+      inset 0 2px 0 rgba(255,255,255,.33),
+      inset 0 4px 0 rgba(255,202,106,.7),
+      inset 0 -10px 0 rgba(122,64,0,.4),
+      0 1px 1px rgba(0,0,0,.1),
+      0 4px 3px rgba(0,0,0,.4);
     text-decoration:none;
-    display:block;
-  }
-  .back-btn img{ width:100%; height:auto; display:block; }
-  .back-btn span{
-    position:absolute; inset:0;
-    display:flex; align-items:center; justify-content:center;
     font-family:'Pretendard', sans-serif;
     font-weight:800;
-    font-size:15px;
-    color:#2a1a0d;
-    text-shadow:0 1px 0 rgba(255,255,255,.35);
+    font-size:20px;
+    letter-spacing:.02em;
+    color:#3b1a00;
   }
-  .back-btn:active img{ filter:brightness(.94); }
+  .back-btn:active{ transform:translateY(1px); filter:brightness(.96); }
 
   /* ===== FOOTER ===== */
   .grass-footer{
@@ -613,32 +597,13 @@
         <div class="photo-frame">
           <img src="images/photo-attraction-1.png" alt="상하목장 버스정류장 포토존에서 기념촬영을 하는 방문객">
         </div>
-        <p class="photo-caption">포토존: 상하목장 버스정류장에서 인증샷</p>
+        <p class="photo-caption">대형 LED 포토존</p>
       </div>
 
-      <div class="photo-card reveal">
-        <div class="photo-frame">
-          <img src="images/photo-attraction-2.png" alt="어린이들이 상하목장 우유를 시식하는 모습">
-        </div>
-        <p class="photo-caption">나만의 우유성향 테스트 체험(시식)</p>
-      </div>
-
-      <div class="experience-info reveal">
-        <div class="info-row">
-          <span class="label">포토존</span>
-          <span class="value"><b>상시 운영</b><br>버스정류장 세트에서 자유롭게 촬영</span>
-        </div>
-        <div class="info-row">
-          <span class="label">헛간체험</span>
-          <span class="value">치즈 만들기 · 우유 라벨 만들기<br>체험과 함께 <b>시식체험</b> 진행<br>1인당 소요시간 약 <b>15분</b></span>
-        </div>
-      </div>
+      <div class="card-2-empty reveal"></div>
 
       <div class="back-btn-wrap">
-        <a href="pamphlet.html" class="back-btn">
-          <img src="images/wood-button.png" alt="">
-          <span>뒤로가기</span>
-        </a>
+        <a href="pamphlet.html" class="back-btn">← 뒤로가기</a>
       </div>
     </section>
   </main>
