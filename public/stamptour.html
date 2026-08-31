@@ -38,18 +38,18 @@
     font-size: 16px; font-weight: 600; color: #fff; letter-spacing: .1em;
   }
   .warning-heading { font-size: 20px; font-weight: 600; color: #fff; text-align: center; line-height: 1.3; }
-  .warning-caption { font-size: 15px; font-weight: 700; color: #fff; text-align: center; white-space: nowrap; }
+  .warning-caption { font-size: 15px; font-weight: 500; color: #fff; text-align: center; white-space: nowrap; }
   .joja-plate { background: #fffdd2; border-radius: 6px; }
   .joja-heading { font-size: 20px; font-weight: 600; color: #1c1c1c; text-align: center; }
   .joja-quote { font-size: 15px; font-weight: 600; color: #1c1c1c; text-align: center; }
-  .joja-strip { background: #113f00; border: 1px solid #ff3010; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; }
+  .joja-strip { background: #113f00; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; }
   .joja-strip-title { font-size: 15px; font-weight: 600; color: #ff3010; }
   .joja-strip-sub { font-size: 13px; font-weight: 600; color: #fff; }
   .joja-logo img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
   /* -------- stamp reward -------- */
-  .eyebrow { font-weight: 800; font-size: 15px; color: #0067a3; text-align: center; }
-  .headline { font-size: 21px; font-weight: 800; color: #1c1c1c; text-align: center; }
+  .eyebrow { font-weight: 800; font-size: 20px; color: #0067a3; text-align: center; }
+  .headline { font-size: 21px; font-weight: 600; color: #1c1c1c; text-align: center; }
   .subline { font-size: 12.5px; color: #2a2a2a; text-align: center; }
   .subline b { color: #b4a419; }
 
@@ -90,7 +90,7 @@
   .divider-line { border-top: 3px dashed #8a5a2f; }
 
   /* -------- attractions -------- */
-  .attractions-label { font-weight: 800; font-size: 18px; color: #006798; }
+  .attractions-label { font-weight: 800; font-size: 20px; color: #006798; }
   .exhibit-card { background: #f6ffeb; border: 3px solid #1c1c1c; }
   .exhibit-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .exhibit-caption { font-size: 15px; font-weight: 600; color: #1c1c1c; text-align: center; }
@@ -98,11 +98,14 @@
   /* -------- back button -------- */
   .return-link {
     display: flex; align-items: center; justify-content: center; gap: 8px;
-    border-radius: 14px; border: 4px solid #996626;
-    background: linear-gradient(180deg, #ffd980 0%, #f5c766 50%, #fdc980 100%);
-    box-shadow: inset 0 2px 0 rgba(255,255,255,.33);
+    border-radius: 2px; border: 3px solid #40260d;
+    background: #c0d810;
+    box-shadow:
+      inset 0 -3px 0 0 rgba(102,64,13,.5),
+      inset 0 3px 0 0 rgba(255,255,217,.6),
+      0 3px 0 rgba(0,0,0,.4);
     text-decoration: none;
-    font-weight: 800; font-size: 20px; letter-spacing: .02em; color: #3b1a00;
+    font-weight: 700; font-size: 20px; letter-spacing: .5px; color: #3b1a00;
   }
   .return-link:active { transform: translateY(1px); filter: brightness(.96); }
 
@@ -171,12 +174,12 @@
         <p class="joja-strip-sub">농부님들, 축제를 지켜주세요!</p>
       </div>
     </div>
-    <div class="node joja-logo" style="left:56.22%; top:10.56%; width:13.43%; height:2.61%;">
+    <div class="node joja-logo" style="left:63%; top:9.9%; width:13.43%; height:2.61%;">
       <img src="images/joja-logo-fresh.png" alt="JOJA MART 모자">
     </div>
 
     <!-- stamp reward -->
-    <p class="node eyebrow" style="left:31.84%; top:18.20%; width:35.32%;">STAMP REWARD</p>
+    <p class="node eyebrow" style="left:0; top:18.20%; width:100%; white-space:nowrap;">STAMP REWARD</p>
     <p class="node headline" style="left:4.23%; top:20.57%; width:91.54%;">축제를 지키는 방법!</p>
     <p class="node subline" style="left:10.45%; top:22.10%; width:79.10%;">상하목장 곳곳을 탐방하며 <b>5개</b>의 스탬프를 모아보세요!</p>
     <img class="node" src="images/deco-bubble-top-fresh.png" alt="" style="left:1%; top:18.20%; width:17.04%; height:4.54%;">
@@ -237,7 +240,7 @@
 
     <div class="node exhibit-card reveal" id="card2" style="left:8.71%; top:79.72%; width:84.08%; height:11.25%;"></div>
 
-    <a href="pamphlet.html" class="node return-link" style="left:31.34%; top:92.35%; width:37.56%; height:2.27%;">← 뒤로가기</a>
+    <a href="pamphlet.html" class="node return-link" style="left:31.34%; top:92.21%; width:37.56%; height:2.57%;">← 뒤로가기</a>
 
     <div class="node promo-strip" style="left:-2.74%; top:96.01%; width:102.74%; height:3.85%;">
       <div class="node" style="left:14.93%; top:8%; width:12.94%; height:84%;">
