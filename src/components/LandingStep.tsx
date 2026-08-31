@@ -48,7 +48,7 @@ export default function LandingStep({ onStart }: { onStart: () => void }) {
       <img
         src={bgHero}
         alt=""
-        className="pointer-events-none absolute size-full object-cover"
+        className="pointer-events-none absolute max-w-none object-cover"
         style={{ left: '-1.244%', top: '0%', width: '101.244%', height: '78.489%' }}
       />
 
@@ -62,7 +62,7 @@ export default function LandingStep({ onStart }: { onStart: () => void }) {
         <img src={eventImgEnvelope} alt="" style={{ width: '83.40%', height: '81.81%', transform: 'rotate(-13.86deg)' }} />
       </Box>
 
-      <img src={ctaBgFooter} alt="" className="pointer-events-none absolute size-full object-cover" style={{ left: 0, top: '77.688%', width: '100%', height: '22.312%' }} />
+      <img src={ctaBgFooter} alt="" className="pointer-events-none absolute object-cover" style={{ left: 0, top: '77.688%', width: '100%', height: '22.312%' }} />
 
       <Box left={75.124} top={59.725} width={19.652} height={18.764} className="pointer-events-none">
         <img src={character4} alt="" className="size-full object-contain" />
