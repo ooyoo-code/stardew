@@ -6,743 +6,338 @@
 <title>스탬프투어 | 스타듀밸리 x 상하목장 팝업스토어</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
-<style>@import url('//fonts.googleapis.com/earlyaccess/jejugothic.css');</style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Micro+5&display=swap">
 <style>
-  :root{
-    --sky-pale:#cdefff;
-    --wood-dark:#6b3f22;
-    --wood-mid:#8a5a2f;
-    --wood-light:#c9945a;
-    --parchment:#f5e6c4;
-    --ink:#3a2612;
-    --label-blue:#0067a3;
-    --hl-gold:#b4a419;
-    /* scene bridge */
-    --scene-dark:#4e4949;
-    --warn-red:#a30909;
-    --joja-cream:#fffdd2;
-    --attack-green:#113f00;
-    /* footer */
-    --maroon:#3a0000;
-    --gold-text:#f0cf6e;
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #e9e9e9;
+    display: flex;
+    justify-content: center;
+    font-family: 'Pretendard', sans-serif;
   }
-  *{box-sizing:border-box; margin:0; padding:0;}
-  html, body{ min-height:100%; }
-  body{
-    font-family:'Pretendard', sans-serif;
-    background:#e9e9e9;
-    display:flex;
-    justify-content:center;
-    overflow-x:hidden;
-  }
-  .page{
-    width:100%;
-    max-width:430px;
-    min-height:100vh;
-    min-height:100dvh;
-    background:var(--sky-pale);
-    position:relative;
-    display:flex;
-    flex-direction:column;
-    overflow-x:hidden;
-  }
-  header{
-    display:flex; align-items:center; justify-content:space-between;
-    padding:2.4vh 20px 1.6vh;
-    flex:0 0 auto;
-    position:relative;
-    z-index:10;
-    background:var(--sky-pale);
-  }
-  .logo img{ height:3.6vh; width:auto; display:block; min-height:26px; }
-  .menu-btn{
-    display:flex; flex-direction:column; gap:5px;
-    background:none; border:none; cursor:pointer; padding:6px;
-  }
-  .menu-btn span{ width:24px; height:3px; background:#2a2a2a; border-radius:2px; }
+  a { color: inherit; }
 
-  /* ===== NAV DRAWER ===== */
-  .nav-overlay{
-    position:fixed; inset:0;
-    background:rgba(20,12,4,.5);
-    opacity:0; visibility:hidden;
-    transition:opacity .25s ease, visibility .25s ease;
-    z-index:80;
-  }
-  .nav-overlay.open{ opacity:1; visibility:visible; }
-  .nav-drawer{
-    position:fixed; top:0; right:0;
-    width:76%; max-width:300px;
-    height:100%;
-    background:linear-gradient(180deg, var(--sky-pale, #cdefff), #e6f6ff);
-    border-left:5px solid var(--wood-dark);
-    box-shadow:-8px 0 18px rgba(0,0,0,.25);
-    transform:translateX(100%);
-    transition:transform .28s ease;
-    z-index:81;
-    display:flex;
-    flex-direction:column;
-    padding:20px 18px;
-  }
-  .nav-drawer.open{ transform:translateX(0); }
-  .nav-drawer-header{
-    display:flex; align-items:center; justify-content:space-between;
-    margin-bottom:18px;
-    padding-bottom:14px;
-    border-bottom:3px solid var(--wood-dark);
-  }
-  .nav-drawer-header .nav-title{
-    font-family:'Galmuri11', sans-serif;
-    font-size:15px;
-    color:var(--ink);
-    letter-spacing:.05em;
-  }
-  .nav-close-btn{
-    background:none; border:none; cursor:pointer;
-    font-size:20px; line-height:1; color:var(--ink);
-    padding:2px 6px;
-  }
-  .nav-list{
-    list-style:none;
-    display:flex; flex-direction:column;
-  }
-  .nav-list li{
-    border-bottom:2px dashed #a9c3cf;
-  }
-  .nav-list a{
-    display:flex; align-items:center; justify-content:space-between;
-    text-decoration:none;
-    padding:15px 4px;
-    font-weight:800;
-    font-size:13.5px;
-    color:var(--ink);
-  }
-  .nav-list a .arrow{ color:var(--wood-mid); font-size:14px; }
-  .nav-list a:active{ opacity:.6; }
+  .sheet { width: 100%; max-width: 430px; position: relative; }
 
-  main{
-    flex:1 1 auto;
-    display:flex;
-    flex-direction:column;
-  }
+  /* The whole Figma frame (402 x 2027) rendered as one proportional canvas,
+     every child positioned by percentage of that frame so it scales as a unit. */
+  .canvas { position: relative; width: 100%; aspect-ratio: 402 / 2027; background: #cdefff; overflow: hidden; }
+  .node { position: absolute; }
 
-  .eyebrow{
-    font-family:'Pretendard', sans-serif;
-    font-weight:800;
-    font-size:15px;
-    letter-spacing:.03em;
-    color:var(--label-blue);
-    text-align:center;
-    margin-bottom:10px;
-  }
+  /* -------- header -------- */
+  .site-logo { display: flex; align-items: center; height: 100%; }
+  .site-logo img { height: 100%; width: auto; display: block; }
+  .menu-toggle { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 6px; width: 100%; height: 100%; }
+  .menu-toggle span { width: 100%; height: 3px; background: #2a2a2a; border-radius: 2px; }
 
-  /* ===== SCROLL REVEAL ===== */
-  .reveal{
-    opacity:0;
-    transform:translateY(22px);
-    transition:opacity .55s ease, transform .55s ease;
+  /* -------- warning / joja mart -------- */
+  .warning-plate { background: #4e4949; }
+  .warning-pill {
+    background: #a30909; border: 2px solid #fff; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 600; color: #fff; letter-spacing: .1em;
   }
-  .reveal.in-view{ opacity:1; transform:none; }
+  .warning-heading { font-size: 20px; font-weight: 600; color: #fff; text-align: center; line-height: 1.3; }
+  .warning-caption { font-size: 15px; font-weight: 700; color: #fff; text-align: center; white-space: nowrap; }
+  .joja-plate { background: #fffdd2; border-radius: 6px; }
+  .joja-heading { font-size: 20px; font-weight: 600; color: #1c1c1c; text-align: center; }
+  .joja-quote { font-size: 15px; font-weight: 600; color: #1c1c1c; text-align: center; }
+  .joja-strip { background: #113f00; border: 1px solid #ff3010; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; }
+  .joja-strip-title { font-size: 15px; font-weight: 600; color: #ff3010; }
+  .joja-strip-sub { font-size: 13px; font-weight: 600; color: #fff; }
+  .joja-logo img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
-  /* ===== SCENE BRIDGE (WARNING / JOJA MART) ===== */
-  .scene-bridge{
-    background:var(--scene-dark);
-    padding:26px 24px 34px;
-    text-align:center;
-  }
-  .warn-badge{
-    display:inline-block;
-    background:var(--warn-red);
-    border:2px solid #ffffff;
-    border-radius:4px;
-    padding:5px 16px;
-    font-family:'Galmuri11', sans-serif;
-    font-size:13px;
-    letter-spacing:.12em;
-    color:#fff;
-    margin-bottom:14px;
-  }
-  .bridge-title{
-    font-family:'Galmuri11', sans-serif;
-    font-size:19px;
-    letter-spacing:.04em;
-    color:#fff;
-    margin-bottom:10px;
-    line-height:1.4;
-  }
-  .bridge-sub{
-    font-size:11.5px;
-    color:#d8d3d3;
-    margin-bottom:20px;
-    line-height:1.6;
-  }
-  .joja-box{
-    background:var(--joja-cream);
-    border-radius:6px;
-    padding:16px 14px 14px;
-  }
-  .joja-line{
-    display:flex; align-items:center; justify-content:center; gap:8px;
-    font-family:'Galmuri11', sans-serif;
-    font-size:18px;
-    letter-spacing:.06em;
-    color:#1c1c1c;
-    margin-bottom:10px;
-  }
-  .joja-line img{ height:22px; width:auto; display:block; }
-  .joja-quote{
-    font-size:14.5px;
-    font-weight:800;
-    color:#1c1c1c;
-    margin-bottom:14px;
-  }
-  .attack-strip{
-    background:var(--attack-green);
-    border:2px solid var(--joja-cream);
-    border-radius:4px;
-    padding:10px 8px;
-  }
-  .attack-title{
-    font-family:'Galmuri11', sans-serif;
-    font-size:14.5px;
-    letter-spacing:.03em;
-    color:#ff5b3d;
-    margin-bottom:5px;
-  }
-  .attack-title .bang{ color:#ff2d2d; }
-  .attack-sub{
-    font-size:11.5px;
-    font-weight:700;
-    color:#fff;
-  }
+  /* -------- stamp reward -------- */
+  .eyebrow { font-weight: 800; font-size: 15px; color: #0067a3; text-align: center; }
+  .headline { font-size: 21px; font-weight: 800; color: #1c1c1c; text-align: center; }
+  .subline { font-size: 12.5px; color: #2a2a2a; text-align: center; }
+  .subline b { color: #b4a419; }
 
-  /* ===== STAMP REWARD ===== */
-  .stamp-reward{
-    padding:30px 22px 6px;
-    position:relative;
-  }
-  .section-title{
-    font-size:21px;
-    font-weight:800;
-    color:#1c1c1c;
-    text-align:center;
-    margin-bottom:10px;
-  }
-  .section-sub{
-    font-size:12.5px;
-    color:#2a2a2a;
-    text-align:center;
-    margin-bottom:8px;
-  }
-  .section-sub b{ color:var(--hl-gold); font-weight:800; }
+  .trail-connector img { width: 100%; height: 100%; display: block; }
 
-  .stamp-track{
-    position:relative;
-    padding:26px 0 10px;
+  .stamp-badge { display: block; cursor: pointer; }
+  .stamp-badge img {
+    width: 100%; height: auto; display: block;
+    filter: drop-shadow(0 3px 4px rgba(0,0,0,.12));
+    opacity: 0;
+    transform: scale(2) rotate(-18deg);
   }
-  .stamp-track::before{
-    content:'';
-    position:absolute;
-    top:20px; bottom:60px; left:50%;
-    width:0;
-    border-left:3px dotted #ffffff;
-    transform:translateX(-1px);
-    z-index:0;
-    opacity:.85;
+  .stamp-badge.stamped img { animation: stampSlam .5s cubic-bezier(.25,1.6,.4,1) forwards; }
+  @keyframes stampSlam {
+    0%   { opacity: 0; transform: scale(2.1) rotate(-18deg); }
+    55%  { opacity: 1; transform: scale(.88) rotate(4deg); }
+    75%  { transform: scale(1.06) rotate(-2deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0deg); }
   }
-  .stamp-row{
-    display:flex;
-    position:relative;
-    z-index:1;
-    margin-bottom:-14px;
-    cursor:pointer;
-  }
-  .stamp-row.pos-left{ justify-content:flex-start; }
-  .stamp-row.pos-right{ justify-content:flex-end; }
-  .stamp-row:active .stamp-img{ transform:scale(.96); }
-  .stamp-img{
-    width:58%;
-    max-width:230px;
-    height:auto;
-    display:block;
-    filter:drop-shadow(0 3px 4px rgba(0,0,0,.12));
-    transition:transform .12s ease;
-    opacity:0;
-    transform:scale(2) rotate(-18deg);
-  }
-  .stamp-row.stamped .stamp-img{
-    animation:stampDown .5s cubic-bezier(.25,1.6,.4,1) forwards;
-  }
-  .stamp-row.stamped:active .stamp-img{ transform:scale(.96) rotate(0deg); }
-  @keyframes stampDown{
-    0%{ opacity:0; transform:scale(2.1) rotate(-18deg); }
-    55%{ opacity:1; transform:scale(.88) rotate(4deg); }
-    75%{ transform:scale(1.06) rotate(-2deg); }
-    100%{ opacity:1; transform:scale(1) rotate(0deg); }
-  }
-  .stamp-row.stamped{ animation:stampThud .5s ease .12s; }
-  @keyframes stampThud{
-    0%, 100%{ transform:none; }
-    30%{ transform:translateY(2px); }
-  }
+  .stamp-badge:active img { transform: scale(.94) !important; }
 
-  .deco-bubble{
-    position:absolute;
-    z-index:2;
-    pointer-events:none;
-  }
-  .deco-bubble.b1{ top:2px; left:0; width:16%; }
-  .deco-bubble.b2{ top:56%; right:2%; width:14%; }
-  .deco-cracker{
-    position:absolute;
-    top:-6px; right:6%;
-    width:15%;
-    z-index:2;
-    transform:rotate(8deg);
-    pointer-events:none;
-  }
-  .deco-yellow-block{
-    position:absolute;
-    left:0; bottom:24%;
-    width:20%;
-    z-index:0;
-    pointer-events:none;
-    opacity:.9;
-  }
+  /* -------- reward card -------- */
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .5s ease, transform .5s ease; }
+  .reveal.shown { opacity: 1; transform: none; }
 
-  .play-wrap{
-    position:relative;
-    margin-top:44px;
-  }
-  .cow-decoration{
-    position:absolute;
-    top:-38px; right:2px;
-    width:76px;
-    z-index:3;
-    filter:drop-shadow(0 3px 3px rgba(0,0,0,.2));
-  }
+  .reward-card img { width: 100%; height: 100%; display: block; }
+  .reward-rules { list-style: none; display: flex; flex-direction: column; justify-content: center; gap: 6%; height: 100%; }
+  .reward-rules li { font-size: clamp(10px, 3vw, 12.5px); color: #1c1c1c; line-height: 1.4; padding-left: 15px; position: relative; }
+  .reward-rules li::before { content: attr(data-n) '.'; position: absolute; left: 0; top: 0; font-weight: 800; }
+  .reward-rules b { font-weight: 800; }
+  .reward-rules .gold { color: #a4610a; }
+  .reward-tag { display: flex; align-items: center; justify-content: center; }
+  .reward-tag img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .reward-tag span { position: relative; font-family: 'Micro 5', 'Pretendard', sans-serif; font-size: clamp(18px, 5vw, 26px); color: #1c1c1c; padding-bottom: 6%; }
 
-  .play-box{
-    position:relative;
-    width:100%;
-    margin-top:16px;
-  }
-  .play-box-bg{ width:100%; height:auto; display:block; }
-  .play-badge{
-    position:absolute;
-    top:-19px; left:50%;
-    transform:translateX(-50%);
-    width:30%;
-    min-width:100px;
-    z-index:2;
-  }
-  .play-badge img{ width:100%; height:auto; display:block; }
-  .play-badge span{
-    position:absolute; inset:0;
-    display:flex; align-items:center; justify-content:center;
-    padding-bottom:8%;
-    font-family:'Micro 5', 'Pretendard', sans-serif;
-    font-size:clamp(20px, 6vw, 28px);
-    color:#1c1c1c;
-  }
-  .play-content{
-    position:absolute;
-    left:9%; right:9%; top:16%; bottom:8%;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    gap:6%;
-  }
-  .play-rules{
-    list-style:none;
-    display:flex;
-    flex-direction:column;
-    gap:7%;
-  }
-  .play-rules li{
-    font-size:clamp(10px, 3vw, 12.5px);
-    color:#1c1c1c;
-    line-height:1.4;
-    padding-left:15px;
-    position:relative;
-  }
-  .play-rules li::before{
-    content:attr(data-n) '.';
-    position:absolute; left:0; top:0;
-    font-weight:800;
-  }
-  .play-rules b{ font-weight:800; }
-  .play-rules .hl-gold{ color:#a4610a; }
+  .divider-line { border-top: 3px dashed #8a5a2f; }
 
-  /* ===== DASH DIVIDER ===== */
-  .dash-divider{
-    border:none;
-    border-top:3px dashed var(--wood-mid);
-    margin:30px 22px 4px;
-  }
+  /* -------- attractions -------- */
+  .attractions-label { font-weight: 800; font-size: 18px; color: #006798; }
+  .exhibit-card { background: #f6ffeb; border: 3px solid #1c1c1c; }
+  .exhibit-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .exhibit-caption { font-size: 15px; font-weight: 600; color: #1c1c1c; text-align: center; }
 
-  /* ===== ATTRACTIONS & PROGRAMS (체험안내) ===== */
-  .attractions{
-    padding:26px 22px 6px;
+  /* -------- back button -------- */
+  .return-link {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    border-radius: 14px; border: 4px solid #996626;
+    background: linear-gradient(180deg, #ffd980 0%, #f5c766 50%, #fdc980 100%);
+    box-shadow: inset 0 2px 0 rgba(255,255,255,.33);
+    text-decoration: none;
+    font-weight: 800; font-size: 20px; letter-spacing: .02em; color: #3b1a00;
   }
-  .photo-card{
-    background:#f6fdea;
-    border:3px solid #1c1c1c;
-    border-radius:2px;
-    padding:8px 8px 14px;
-    margin-bottom:20px;
-    box-shadow:4px 4px 0 rgba(0,0,0,.18);
-  }
-  .photo-frame{
-    width:100%;
-    overflow:hidden;
-    margin-bottom:12px;
-  }
-  .photo-frame img{ width:100%; height:auto; display:block; }
-  .photo-caption{
-    text-align:center;
-    font-size:13.5px;
-    font-weight:800;
-    color:#1c1c1c;
-  }
-  .card-2-empty{
-    background:#f6ffeb;
-    border:3px solid #1c1c1c;
-    border-radius:2px;
-    min-height:150px;
-    margin-bottom:22px;
-    box-shadow:4px 4px 0 rgba(0,0,0,.18);
-  }
+  .return-link:active { transform: translateY(1px); filter: brightness(.96); }
 
-  /* ===== BACK BUTTON ===== */
-  .back-btn-wrap{
-    display:flex;
-    justify-content:center;
-    margin:10px 0 30px;
-  }
-  .back-btn{
-    position:relative;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    padding:10px 24px;
-    border-radius:14px;
-    border:4px solid #5c2e00;
-    background:linear-gradient(180deg, #f5a623 0%, #d4870a 50%, #b8710a 100%);
-    box-shadow:
-      inset 0 2px 0 rgba(255,255,255,.33),
-      inset 0 4px 0 rgba(255,202,106,.7),
-      inset 0 -10px 0 rgba(122,64,0,.4),
-      0 1px 1px rgba(0,0,0,.1),
-      0 4px 3px rgba(0,0,0,.4);
-    text-decoration:none;
-    font-family:'Pretendard', sans-serif;
-    font-weight:800;
-    font-size:20px;
-    letter-spacing:.02em;
-    color:#3b1a00;
-  }
-  .back-btn:active{ transform:translateY(1px); filter:brightness(.96); }
+  /* -------- footer -------- */
+  .promo-strip { background: #3f0000; }
+  .promo-strip img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .promo-title { font-family: 'Intel One Mono', monospace; font-weight: 700; font-size: 20px; color: #f5d060; }
+  .promo-sub { font-size: 15px; font-weight: 700; color: #d7d4b1; }
 
-  /* ===== FOOTER ===== */
-  .grass-footer{
-    flex:0 0 auto;
-    width:100%;
-    height:auto;
-    display:block;
-    margin-top:auto;
+  /* -------- nav drawer (fixed overlay, outside the scaled canvas) -------- */
+  .scrim { position: fixed; inset: 0; background: rgba(20,12,4,.5); opacity: 0; visibility: hidden; transition: opacity .25s ease, visibility .25s ease; z-index: 80; }
+  .scrim.open { opacity: 1; visibility: visible; }
+  .drawer {
+    position: fixed; top: 0; right: 0; width: 76%; max-width: 300px; height: 100%;
+    background: linear-gradient(180deg, #cdefff, #e6f6ff);
+    border-left: 5px solid #6b3f22;
+    box-shadow: -8px 0 18px rgba(0,0,0,.25);
+    transform: translateX(100%);
+    transition: transform .28s ease;
+    z-index: 81;
+    display: flex; flex-direction: column; padding: 20px 18px;
   }
-  .grand-open-footer{
-    flex:0 0 auto;
-    display:flex;
-    align-items:center;
-    gap:14px;
-    padding:16px 22px;
-    background:var(--maroon);
-  }
-  .grand-open-footer img{ width:44px; height:auto; display:block; flex:0 0 auto; }
-  .go-title{
-    font-family:'Intel One Mono', monospace;
-    font-weight:700;
-    font-size:19px;
-    color:var(--gold-text);
-    margin-bottom:4px;
-  }
-  .go-sub{
-    font-size:13px;
-    font-weight:700;
-    color:#d7d4b1;
-  }
+  .drawer.open { transform: translateX(0); }
+  .drawer-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 3px solid #6b3f22; }
+  .drawer-head span { font-family: 'Galmuri11', sans-serif; font-size: 15px; color: #3a2612; letter-spacing: .05em; }
+  .drawer-close { background: none; border: none; cursor: pointer; font-size: 20px; line-height: 1; color: #3a2612; padding: 2px 6px; }
+  .drawer-list { list-style: none; display: flex; flex-direction: column; }
+  .drawer-list li { border-bottom: 2px dashed #a9c3cf; }
+  .drawer-list a { display: flex; align-items: center; justify-content: space-between; text-decoration: none; padding: 15px 4px; font-weight: 800; font-size: 13.5px; color: #3a2612; }
+  .drawer-list a i { color: #8a5a2f; font-size: 14px; font-style: normal; }
+  .drawer-list a:active { opacity: .6; }
 
-  /* ===== STAMP MODAL (POPUP) ===== */
-  .stamp-modal-overlay{
-    position:fixed; inset:0;
-    background:rgba(20,12,4,.6);
-    opacity:0; visibility:hidden;
-    transition:opacity .25s ease, visibility .25s ease;
-    z-index:90;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:24px;
-  }
-  .stamp-modal-overlay.open{ opacity:1; visibility:visible; }
-  .stamp-modal{
-    position:relative;
-    width:100%;
-    max-width:300px;
-    background:var(--parchment);
-    border:3px solid var(--wood-dark);
-    border-radius:10px;
-    padding:22px 18px 20px;
-    text-align:center;
-    box-shadow:0 10px 24px rgba(0,0,0,.35);
-  }
-  .stamp-modal img{
-    width:60%;
-    max-width:170px;
-    height:auto;
-    display:block;
-    margin:0 auto 14px;
-    filter:drop-shadow(0 3px 4px rgba(0,0,0,.15));
-  }
-  .stamp-modal-title{
-    font-size:15px;
-    font-weight:800;
-    color:var(--ink);
-    margin-bottom:8px;
-  }
-  .stamp-modal-desc{
-    font-size:12.5px;
-    color:#3a2612;
-    line-height:1.6;
-  }
-  .stamp-modal-close{
-    position:absolute;
-    top:8px; right:10px;
-    background:none;
-    border:none;
-    cursor:pointer;
-    font-size:18px;
-    line-height:1;
-    color:var(--ink);
-    padding:4px 8px;
-  }
+  /* -------- stamp detail popup -------- */
+  .peek-scrim { position: fixed; inset: 0; background: rgba(20,12,4,.6); opacity: 0; visibility: hidden; transition: opacity .25s ease, visibility .25s ease; z-index: 90; display: flex; align-items: center; justify-content: center; padding: 24px; }
+  .peek-scrim.open { opacity: 1; visibility: visible; }
+  .peek-card { position: relative; width: 100%; max-width: 300px; background: #f5e6c4; border: 3px solid #6b3f22; border-radius: 10px; padding: 22px 18px 20px; text-align: center; box-shadow: 0 10px 24px rgba(0,0,0,.35); }
+  .peek-card img { width: 60%; max-width: 170px; height: auto; display: block; margin: 0 auto 14px; filter: drop-shadow(0 3px 4px rgba(0,0,0,.15)); }
+  .peek-title { font-size: 15px; font-weight: 800; color: #3a2612; margin-bottom: 8px; }
+  .peek-desc { font-size: 12.5px; color: #3a2612; line-height: 1.6; }
+  .peek-close { position: absolute; top: 8px; right: 10px; background: none; border: none; cursor: pointer; font-size: 18px; line-height: 1; color: #3a2612; padding: 4px 8px; }
 </style>
 </head>
 <body>
-<div class="page">
+<div class="sheet">
+  <div class="canvas">
 
-  <header>
-    <div class="logo">
-      <a href="index.html" style="display:flex; align-items:center;">
-        <img src="images/sesac-logo-crop.png" alt="SESAC농부">
-      </a>
-    </div>
-    <button class="menu-btn" aria-label="메뉴 열기">
+    <!-- header -->
+    <a href="index.html" class="node site-logo" style="left:3.73%; top:3.06%; width:27.11%; height:1.33%;">
+      <img src="images/sesac-logo-crop.png" alt="SESAC농부">
+    </a>
+    <button class="node menu-toggle" aria-label="메뉴 열기" id="menuBtn" style="left:88.56%; top:3.26%; width:7.46%; height:1.48%;">
       <span></span><span></span>
     </button>
-  </header>
 
-  <main>
-    <!-- ===== SCENE BRIDGE ===== -->
-    <section class="scene-bridge">
-      <span class="warn-badge">WARNING</span>
-      <p class="bridge-title">잠깐. 무언가 이상합니다.</p>
-      <p class="bridge-sub">축제준비가 한창이던 그때,누군가가 훔쳐보는 것 같아요.</p>
+    <!-- warning / joja mart -->
+    <div class="node warning-plate" style="left:-1.24%; top:5.67%; width:103.48%; height:11.30%;"></div>
+    <div class="node warning-pill" style="left:40.05%; top:6.56%; width:20.90%; height:1.33%;">WARNING</div>
+    <p class="node warning-heading" style="left:13.18%; top:8.14%; width:74.63%;">잠깐! 수상한 사람들이 들이닥쳤어요!</p>
+    <p class="node warning-caption" style="left:2%; top:9.62%; width:96%;">악덕 대기업 “조자마트”가 상하목장을 접수하려고 해요!</p>
 
-      <div class="joja-box reveal">
-        <p class="joja-line">JOJA MART <img src="images/warning-joja-logo.png" alt="JOJA MART 모자"></p>
-        <p class="joja-quote">“이곳의 농장은 이제 저희것입니다.”</p>
-        <div class="attack-strip">
-          <p class="attack-title"><span class="bang">‼</span>FARM UNDER ATTACK</p>
-          <p class="attack-sub">농부님들, 축제를 지켜주세요!</p>
-        </div>
+    <div class="node joja-plate reveal" id="jojaCard" style="left:9.03%; top:11.04%; width:82.43%; height:5.01%;">
+      <p class="node joja-heading" style="left:0; top:8%; width:100%;">JOJA MART</p>
+      <p class="node joja-quote" style="left:0; top:32%; width:100%;">“이곳의 농장은 이제 저희것입니다.”</p>
+      <div class="node joja-strip" style="left:7%; top:55%; width:86%; height:38%;">
+        <p class="joja-strip-title">‼FARM UNDER ATTACK</p>
+        <p class="joja-strip-sub">농부님들, 축제를 지켜주세요!</p>
       </div>
-    </section>
-
-    <!-- ===== STAMP REWARD ===== -->
-    <section class="stamp-reward" id="stamptour">
-      <p class="eyebrow">STAMP REWARD</p>
-      <p class="section-title">축제를 지키는 방법!</p>
-      <p class="section-sub">상하목장 곳곳을 탐방하며 <b>5개</b>의 스탬프를 모아보세요!</p>
-
-      <div class="stamp-track">
-        <img class="deco-bubble b1" src="images/deco-bubble-1.png" alt="">
-        <img class="deco-cracker" src="images/deco-cracker.png" alt="">
-
-        <div class="stamp-row pos-left" data-desc="나만의 개성 있는 캐릭터를 그려보세요! 완성한 캐릭터는 축제 기간 동안 곳곳에서 만나볼 수 있어요.">
-          <img class="stamp-img" src="images/stamp-1-character.png" alt="나만의 우유 축제 캐릭터 만들기">
-        </div>
-        <div class="stamp-row pos-right" data-desc="상하목장 장인의 노하우가 담긴 수제 치즈 만들기 체험. 직접 만든 치즈는 포장해서 가져가실 수 있어요.">
-          <img class="stamp-img" src="images/stamp-2-cheese.png" alt="헛간 체험: 장인 치즈 만들기">
-        </div>
-        <div class="stamp-row pos-left" data-desc="나만의 감성을 담은 상하 우유 라벨을 디자인하고 직접 병에 붙여보는 체험이에요.">
-          <img class="stamp-img" src="images/stamp-3-label.png" alt="헛간 체험: 상하 우유 라벨 만들기">
-        </div>
-
-        <img class="deco-yellow-block" src="images/deco-yellow-block.png" alt="">
-        <img class="deco-bubble b2" src="images/deco-bubble-2.png" alt="">
-
-        <div class="stamp-row pos-right" data-desc="스타듀밸리 x 상하목장 컬래버 굿즈를 만나보세요. 굿즈 숍 '마니네'에서 구매 시 스탬프를 드려요.">
-          <img class="stamp-img" src="images/stamp-4-goods.png" alt="굿즈 숍(마니네): 상하&스타듀 굿즈 구매">
-        </div>
-        <div class="stamp-row pos-left" data-desc="상하목장의 신선한 유제품과 F&amp;B 메뉴를 맛보세요. 구매 영수증 제시 시 스탬프를 드려요.">
-          <img class="stamp-img" src="images/stamp-5-dairy.png" alt="F&B 유제품 식품 구매">
-        </div>
-      </div>
-
-      <div class="play-wrap reveal">
-        <img class="cow-decoration" src="images/deco-cow.png" alt="젖소 캐릭터">
-        <div class="play-box">
-          <div class="play-badge">
-            <img src="images/reward-play-badge.svg" alt="">
-            <span>play!</span>
-          </div>
-          <img class="play-box-bg" src="images/reward-card-inner.svg" alt="play! 규칙 안내">
-          <div class="play-content">
-            <ol class="play-rules">
-              <li data-n="1">스탬프 <b>5개</b>를 모아 <b>Special Gift</b> 교환</li>
-              <li data-n="2">스탬프 <b>3개</b>만 모아도 쏟아지는 <b>상품</b></li>
-              <li data-n="3">상하목장 제품 구매시 '<b class="hl-gold">최대20%</b>할인티켓'</li>
-              <li data-n="4"><b>온라인 사전 설문 혜택</b> [게임 아이템 코드] 증정</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <hr class="dash-divider">
-
-    <!-- ===== ATTRACTIONS & PROGRAMS (체험안내) ===== -->
-    <section class="attractions" id="guide">
-      <p class="eyebrow">ATTRACTIONS &amp; PROGRAMS</p>
-
-      <div class="photo-card reveal">
-        <div class="photo-frame">
-          <img src="images/photo-attraction-1.png" alt="상하목장 버스정류장 포토존에서 기념촬영을 하는 방문객">
-        </div>
-        <p class="photo-caption">대형 LED 포토존</p>
-      </div>
-
-      <div class="card-2-empty reveal"></div>
-
-      <div class="back-btn-wrap">
-        <a href="pamphlet.html" class="back-btn">← 뒤로가기</a>
-      </div>
-    </section>
-  </main>
-
-  <img class="grass-footer" src="images/grass-strip.png" alt="">
-  <div class="grand-open-footer">
-    <img src="images/icon-gift-box.png" alt="선물상자">
-    <div>
-      <p class="go-title">9.4 GRAND OPEN</p>
-      <p class="go-sub">선착순 100명 리유저블 컵 증정</p>
     </div>
+    <div class="node joja-logo" style="left:56.22%; top:10.56%; width:13.43%; height:2.61%;">
+      <img src="images/joja-logo-fresh.png" alt="JOJA MART 모자">
+    </div>
+
+    <!-- stamp reward -->
+    <p class="node eyebrow" style="left:31.84%; top:18.20%; width:35.32%;">STAMP REWARD</p>
+    <p class="node headline" style="left:4.23%; top:20.57%; width:91.54%;">축제를 지키는 방법!</p>
+    <p class="node subline" style="left:10.45%; top:22.10%; width:79.10%;">상하목장 곳곳을 탐방하며 <b>5개</b>의 스탬프를 모아보세요!</p>
+    <img class="node" src="images/deco-bubble-top-fresh.png" alt="" style="left:1%; top:18.20%; width:17.04%; height:4.54%;">
+
+    <div class="node trail-connector" style="left:35.07%; top:26.64%; width:29.55%; height:21.58%;">
+      <img src="images/trail-dotted-line-fresh.svg" alt="">
+    </div>
+
+    <a class="node stamp-badge" data-desc="나만의 개성 있는 캐릭터를 그려보세요! 완성한 캐릭터는 축제 기간 동안 곳곳에서 만나볼 수 있어요." style="left:11.19%; top:23.98%; width:30.35%;">
+      <img src="images/stamp-milk-bottle.png" alt="나만의 우유 축제 캐릭터 만들기">
+    </a>
+    <a class="node stamp-badge" data-desc="상하목장 장인의 노하우가 담긴 수제 치즈 만들기 체험. 직접 만든 치즈는 포장해서 가져가실 수 있어요." style="left:60.95%; top:27.73%; width:30.35%;">
+      <img src="images/stamp-cheese.png" alt="헛간 체험: 장인 치즈 만들기">
+    </a>
+    <a class="node stamp-badge" data-desc="나만의 감성을 담은 상하 우유 라벨을 디자인하고 직접 병에 붙여보는 체험이에요." style="left:10.95%; top:34.53%; width:30.35%;">
+      <img src="images/stamp-yogurt.png" alt="헛간 체험: 상하 우유 라벨 만들기">
+    </a>
+    <a class="node stamp-badge" data-desc="스타듀밸리 x 상하목장 컬래버 굿즈를 만나보세요. 굿즈 숍 '마니네'에서 구매 시 스탬프를 드려요." style="left:57.71%; top:41.34%; width:30.35%;">
+      <img src="images/stamp-butter.png" alt="굿즈 숍(마니네): 상하&스타듀 굿즈 구매">
+    </a>
+    <a class="node stamp-badge" data-desc="상하목장의 신선한 유제품과 F&amp;B 메뉴를 맛보세요. 구매 영수증 제시 시 스탬프를 드려요." style="left:11.19%; top:45.04%; width:30.35%;">
+      <img src="images/stamp-ice-cream.png" alt="F&B 유제품 식품 구매">
+    </a>
+
+    <img class="node" src="images/deco-milk-drops-fresh.svg" alt="" style="left:82.09%; top:47.95%; width:21.39%; height:2.96%;">
+    <img class="node" src="images/deco-cow-fresh.svg" alt="젖소 캐릭터" style="left:72.89%; top:50.91%; width:19.40%; height:4.19%;">
+
+    <div class="node reward-card reveal" id="rewardCard" style="left:7.96%; top:54.81%; width:86.57%; height:7.11%;">
+      <img src="images/reward-card-fresh.svg" alt="">
+      <div class="node" style="left:6%; top:16%; width:88%; height:68%;">
+        <ol class="reward-rules">
+          <li data-n="1">스탬프 <b>5개</b>를 모아 <b>Special Gift</b> 교환</li>
+          <li data-n="2">스탬프 <b>3개</b>만 모아도 쏟아지는 <b>상품</b></li>
+          <li data-n="3">상하목장 제품 구매시 '<b class="gold">최대20%</b>할인티켓'</li>
+          <li data-n="4"><b>온라인 사전 설문 혜택</b> [게임 아이템 코드] 증정</li>
+        </ol>
+      </div>
+    </div>
+    <div class="node reward-tag" style="left:35.82%; top:53.87%; width:30.10%; height:1.46%;">
+      <img src="images/reward-badge-fresh.svg" alt="">
+      <span>play!</span>
+    </div>
+
+    <div class="node divider-line" style="left:2%; top:63.94%; width:96%;"></div>
+
+    <p class="node attractions-label" style="left:0; top:65.86%; width:100%; text-align:center; white-space:nowrap;">ATTRACTIONS &amp; PROGRAMS</p>
+
+    <div class="node exhibit-card reveal" id="card1" style="left:8.21%; top:67.79%; width:84.08%; height:11.25%;">
+      <div class="node" style="left:3%; top:4%; width:94%; height:76%; overflow:hidden;">
+        <img src="images/attraction-photo-fresh.png" alt="상하목장 버스정류장 포토존에서 기념촬영을 하는 방문객">
+      </div>
+      <p class="node exhibit-caption" style="left:0; top:84%; width:100%;">대형 LED 포토존</p>
+    </div>
+
+    <div class="node exhibit-card reveal" id="card2" style="left:8.71%; top:79.72%; width:84.08%; height:11.25%;"></div>
+
+    <a href="pamphlet.html" class="node return-link" style="left:31.34%; top:92.35%; width:37.56%; height:2.27%;">← 뒤로가기</a>
+
+    <div class="node promo-strip" style="left:-2.74%; top:96.01%; width:102.74%; height:3.85%;">
+      <div class="node" style="left:14.93%; top:8%; width:12.94%; height:84%;">
+        <img src="images/footer-gift-fresh.svg" alt="선물상자">
+      </div>
+      <p class="node promo-title" style="left:30.85%; top:8%; width:43.63%;">9.4 GRAND OPEN</p>
+      <p class="node promo-sub" style="left:30.10%; top:55%; width:52.74%;">선착순 100명 리유저블 컵 증정</p>
+    </div>
+
   </div>
 
-  <!-- ===== NAV DRAWER ===== -->
-  <div class="nav-overlay" id="navOverlay"></div>
-  <nav class="nav-drawer" id="navDrawer">
-    <div class="nav-drawer-header">
-      <span class="nav-title">MENU</span>
-      <button class="nav-close-btn" id="navCloseBtn" aria-label="메뉴 닫기">✕</button>
+  <!-- nav drawer -->
+  <div class="scrim" id="scrim"></div>
+  <nav class="drawer" id="drawer">
+    <div class="drawer-head">
+      <span>MENU</span>
+      <button class="drawer-close" id="drawerClose" aria-label="메뉴 닫기">✕</button>
     </div>
-    <ul class="nav-list">
-      <li><a href="pamphlet.html#story">STORY<span class="arrow">›</span></a></li>
-      <li><a href="stamptour.html">STAMP TOUR<span class="arrow">›</span></a></li>
-      <li><a href="stamptour.html#guide">체험안내<span class="arrow">›</span></a></li>
-      <li><a href="festival.html">페스티벌 F&amp;B 및 굿즈<span class="arrow">›</span></a></li>
-      <li><a href="festival.html#location">오시는 길 및 안내<span class="arrow">›</span></a></li>
+    <ul class="drawer-list">
+      <li><a href="pamphlet.html#story">STORY<i>›</i></a></li>
+      <li><a href="stamptour.html">STAMP TOUR<i>›</i></a></li>
+      <li><a href="stamptour.html#guide">체험안내<i>›</i></a></li>
+      <li><a href="festival.html">페스티벌 F&amp;B 및 굿즈<i>›</i></a></li>
+      <li><a href="festival.html#location">오시는 길 및 안내<i>›</i></a></li>
     </ul>
   </nav>
 
-  <!-- ===== STAMP MODAL (POPUP) ===== -->
-  <div class="stamp-modal-overlay" id="stampModalOverlay">
-    <div class="stamp-modal">
-      <button class="stamp-modal-close" id="stampModalClose" aria-label="닫기">✕</button>
-      <img id="stampModalImg" src="" alt="">
-      <p class="stamp-modal-title" id="stampModalTitle"></p>
-      <p class="stamp-modal-desc" id="stampModalDesc"></p>
+  <!-- stamp detail popup -->
+  <div class="peek-scrim" id="peekScrim">
+    <div class="peek-card">
+      <button class="peek-close" id="peekClose" aria-label="닫기">✕</button>
+      <img id="peekImg" src="" alt="">
+      <p class="peek-title" id="peekTitle"></p>
+      <p class="peek-desc" id="peekDesc"></p>
     </div>
   </div>
 </div>
+
 <script>
-  (function(){
-    var menuBtn = document.querySelector('.menu-btn');
-    var overlay = document.getElementById('navOverlay');
-    var drawer = document.getElementById('navDrawer');
-    var closeBtn = document.getElementById('navCloseBtn');
-    function openNav(){ overlay.classList.add('open'); drawer.classList.add('open'); }
-    function closeNav(){ overlay.classList.remove('open'); drawer.classList.remove('open'); }
-    if(menuBtn) menuBtn.addEventListener('click', openNav);
-    if(overlay) overlay.addEventListener('click', closeNav);
-    if(closeBtn) closeBtn.addEventListener('click', closeNav);
+  (function () {
+    var menuBtn = document.getElementById('menuBtn');
+    var scrim = document.getElementById('scrim');
+    var drawer = document.getElementById('drawer');
+    var drawerClose = document.getElementById('drawerClose');
+    function openDrawer() { scrim.classList.add('open'); drawer.classList.add('open'); }
+    function closeDrawer() { scrim.classList.remove('open'); drawer.classList.remove('open'); }
+    menuBtn.addEventListener('click', openDrawer);
+    scrim.addEventListener('click', closeDrawer);
+    drawerClose.addEventListener('click', closeDrawer);
   })();
-</script>
-<script>
-  (function(){
-    var rows = document.querySelectorAll('.stamp-row');
-    var modalOverlay = document.getElementById('stampModalOverlay');
-    var modalImg = document.getElementById('stampModalImg');
-    var modalTitle = document.getElementById('stampModalTitle');
-    var modalDesc = document.getElementById('stampModalDesc');
-    var modalClose = document.getElementById('stampModalClose');
 
-    function openModal(row){
-      var img = row.querySelector('.stamp-img');
-      if(!img) return;
-      modalImg.src = img.src;
-      modalImg.alt = img.alt;
-      modalTitle.textContent = img.alt;
-      modalDesc.textContent = row.getAttribute('data-desc') || '';
-      modalOverlay.classList.add('open');
-    }
-    function closeModal(){
-      modalOverlay.classList.remove('open');
-    }
+  (function () {
+    var badges = document.querySelectorAll('.stamp-badge');
+    var peekScrim = document.getElementById('peekScrim');
+    var peekImg = document.getElementById('peekImg');
+    var peekTitle = document.getElementById('peekTitle');
+    var peekDesc = document.getElementById('peekDesc');
+    var peekClose = document.getElementById('peekClose');
 
-    rows.forEach(function(row){
-      row.addEventListener('click', function(){ openModal(row); });
-    });
-    if(modalClose) modalClose.addEventListener('click', closeModal);
-    if(modalOverlay){
-      modalOverlay.addEventListener('click', function(e){
-        if(e.target === modalOverlay) closeModal();
+    function openPeek(badge) {
+      var img = badge.querySelector('img');
+      peekImg.src = img.src;
+      peekImg.alt = img.alt;
+      peekTitle.textContent = img.alt;
+      peekDesc.textContent = badge.getAttribute('data-desc') || '';
+      peekScrim.classList.add('open');
+    }
+    function closePeek() { peekScrim.classList.remove('open'); }
+
+    badges.forEach(function (badge) {
+      badge.addEventListener('click', function (e) {
+        e.preventDefault();
+        openPeek(badge);
       });
-    }
+    });
+    peekClose.addEventListener('click', closePeek);
+    peekScrim.addEventListener('click', function (e) {
+      if (e.target === peekScrim) closePeek();
+    });
   })();
-</script>
-<script>
-  (function(){
-    if(!('IntersectionObserver' in window)){
-      document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in-view'); });
-      document.querySelectorAll('.stamp-row').forEach(function(el){ el.classList.add('stamped'); });
+
+  (function () {
+    if (!('IntersectionObserver' in window)) {
+      document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('shown'); });
+      document.querySelectorAll('.stamp-badge').forEach(function (el) { el.classList.add('stamped'); });
       return;
     }
-
-    var revealObserver = new IntersectionObserver(function(entries, obs){
-      entries.forEach(function(entry){
-        if(entry.isIntersecting){
-          entry.target.classList.add('in-view');
+    var fadeObserver = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('shown');
           obs.unobserve(entry.target);
         }
       });
-    }, { threshold:.15, rootMargin:'0px 0px -8% 0px' });
-    document.querySelectorAll('.reveal').forEach(function(el){ revealObserver.observe(el); });
+    }, { threshold: .15, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal').forEach(function (el) { fadeObserver.observe(el); });
 
-    var stampObserver = new IntersectionObserver(function(entries, obs){
-      entries.forEach(function(entry){
-        if(entry.isIntersecting){
+    var stampObserver = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
           entry.target.classList.add('stamped');
           obs.unobserve(entry.target);
         }
       });
-    }, { threshold:.5 });
-    document.querySelectorAll('.stamp-row').forEach(function(el){ stampObserver.observe(el); });
+    }, { threshold: .5 });
+    document.querySelectorAll('.stamp-badge').forEach(function (el) { stampObserver.observe(el); });
   })();
 </script>
 </body>
