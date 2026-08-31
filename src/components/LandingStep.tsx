@@ -43,6 +43,8 @@ function Box({
 
 const NAV_LINKS = [
   { label: 'STORY', href: '/pamphlet.html#story' },
+  { label: 'STAMP TOUR', href: '/stamptour.html' },
+  { label: '체험안내', href: '/stamptour.html#guide' },
   { label: '페스티벌 F&B 및 굿즈', href: '/festival.html' },
   { label: '오시는 길 및 안내', href: '/festival.html#location' },
 ]
