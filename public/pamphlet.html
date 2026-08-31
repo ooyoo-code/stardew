@@ -151,22 +151,32 @@
   }
   .reveal.in-view{ opacity:1; transform:none; }
 
-  /* ===== PROLOGUE ===== */
-  .prologue{ padding-top:18px; }
+  /* ===== STORY ===== */
+  .story{ padding-top:18px; position:relative; }
   h1{
-    font-size:23px;
-    font-weight:800;
+    font-size:18px;
+    font-weight:600;
     color:#1c1c1c;
     text-align:center;
-    line-height:1.35;
-    margin-bottom:8px;
+    line-height:1.4;
+    margin-bottom:6px;
   }
   .lead-sub{
     font-size:15px;
-    color:#5b6b78;
+    color:#2a2a2a;
     text-align:center;
     margin-bottom:22px;
   }
+
+  .cloud{
+    position:absolute;
+    width:42%;
+    height:auto;
+    pointer-events:none;
+    z-index:-1;
+  }
+  .cloud-upper{ top:2%; right:-14%; }
+  .cloud-lower{ top:130%; left:-16%; }
 
   .letter-wrap{
     position:relative;
@@ -198,9 +208,14 @@
     color:var(--ink);
     margin-top:10px;
   }
-
-  /* ===== STORY ===== */
-  .story{ padding-top:18px; }
+  .letter-seal{
+    position:absolute;
+    left:8%;
+    bottom:9%;
+    width:13%;
+    height:auto;
+    pointer-events:none;
+  }
   .brand-row{
     display:flex; align-items:center; justify-content:center; gap:14px;
     margin-bottom:20px;
@@ -246,30 +261,32 @@
     white-space:nowrap;
   }
 
-  .wood-btn-row{
+  .cta-row{
     display:flex;
     gap:10px;
   }
-  .wood-btn{
-    position:relative;
+  .cta-btn{
     flex:1;
-    text-decoration:none;
-    display:block;
-  }
-  .wood-btn img{ width:100%; height:auto; display:block; }
-  .wood-btn span{
-    position:absolute; inset:0;
-    display:flex; align-items:center; justify-content:center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
     text-align:center;
-    padding:0 10%;
+    text-decoration:none;
+    border-radius:2px;
+    border:3px solid #40260d;
+    background:#c0d810;
+    box-shadow:
+      inset 0 -3px 0 0 rgba(102,64,13,.5),
+      inset 0 3px 0 0 rgba(255,255,217,.6),
+      0 3px 0 rgba(0,0,0,.4);
     font-family:'Pretendard', sans-serif;
     font-weight:700;
-    font-size:clamp(10px, 3.1vw, 13px);
-    line-height:1.2;
-    color:#2a1a0d;
-    text-shadow:0 1px 0 rgba(255,255,255,.35);
+    font-size:clamp(11px, 3.2vw, 13.5px);
+    line-height:1.25;
+    color:#3b1a00;
+    padding:12px 6px;
   }
-  .wood-btn:active img{ filter:brightness(.94); }
+  .cta-btn:active{ transform:translateY(1px); filter:brightness(.96); }
 
   .grass-footer{
     flex:0 0 auto;
@@ -296,53 +313,46 @@
   </header>
 
   <main>
-    <!-- ===== 1. PROLOGUE ===== -->
-    <section class="prologue">
-      <p class="eyebrow">PROLOGUE</p>
+    <!-- ===== STORY ===== -->
+    <section class="story" id="story">
+      <img class="cloud cloud-upper" src="images/story-deco-cloud.svg" alt="">
+      <img class="cloud cloud-lower" src="images/story-deco-cloud.svg" alt="">
+
+      <p class="eyebrow">STORY</p>
       <h1>할아버지의 편지가 도착했습니다.</h1>
-      <p class="lead-sub">내가 힘들때 열어보라고 하셨지, 이번기회에 휴식하러 가볼까?</p>
+      <p class="lead-sub">할아버지의 부탁을 따라 상하목장 축제로 향해볼까요?</p>
 
       <div class="letter-wrap reveal">
-        <img class="letter-bg" src="images/parchment-note.png" alt="할아버지의 편지">
+        <img class="letter-bg" src="images/story-letter-bg.png" alt="할아버지의 편지">
         <div class="letter-content">
           <p class="msg">"이 편지는 네가 지칠 때 열어보거라.<br>이 맘때 쯤 상하목장에서 축제가 열린단다.<br>축제 준비를 도와주렴"</p>
-          <p class="signature">-너의 다정한 할아버지가</p>
+          <p class="signature">from. 너의 다정한 할아버지가</p>
         </div>
+        <img class="letter-seal" src="images/story-letter-seal.svg" alt="">
       </div>
-    </section>
-
-    <!-- ===== 2. STORY ===== -->
-    <section class="story" id="story">
-      <p class="eyebrow">STORY</p>
 
       <div class="brand-row reveal">
-        <img class="stardew-logo" src="images/stardew-logo-crop.png" alt="STARDEW VALLEY 로고">
+        <img class="stardew-logo" src="images/story-logo-stardew.png" alt="STARDEW VALLEY 로고">
         <span class="x-mark">X</span>
-        <img class="sangha-logo" src="images/sanghha-logo.png" alt="상하목장 ORGANIC 로고">
+        <img class="sangha-logo" src="images/story-logo-sangha.png" alt="상하목장 ORGANIC 로고">
       </div>
 
       <p class="desc-line">고창의 바람과 햇살을 그대로 담아낸 한 잔.</p>
       <p class="desc-line">온라인에서 즐기던 <span class="hl-green">힐링</span>을 유기농 <span class="hl-blue">우유</span>와 <span class="hl-gold">치즈</span>를 먹으며 도심 속<br>스트레스를 풀어보세요.</p>
 
       <div class="info-box reveal">
-        <img class="info-box-bg" src="images/info-box-bg.png" alt="">
+        <img class="info-box-bg" src="images/story-letter-bg.png" alt="">
         <div class="info-box-content">
           <p>📅 기간: 2026.09.07 (월) ~ 09.20 (일)</p>
           <p>📍 장소: 스타필드 고양점</p>
           <p>⏰ 시간: 10:30 ~ 22:00</p>
-          <p>🎫 입장: 사전예약 및 현장 대기</p>
+          <p>🎟️ 입장: 사전예약 및 현장 대기</p>
         </div>
       </div>
 
-      <div class="wood-btn-row reveal">
-        <a href="stamptour.html" class="wood-btn">
-          <img src="images/wood-button.png" alt="">
-          <span>스탬프투어 미리보기</span>
-        </a>
-        <a href="festival.html" class="wood-btn">
-          <img src="images/wood-button.png" alt="">
-          <span>페스티벌F&B 보러가기</span>
-        </a>
+      <div class="cta-row reveal">
+        <a href="stamptour.html" class="cta-btn">스탬프투어 미리보기</a>
+        <a href="festival.html" class="cta-btn">페스티벌F&amp;B 보러가기</a>
       </div>
     </section>
   </main>
