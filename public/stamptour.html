@@ -55,9 +55,11 @@
 
   .trail-connector img { width: 100%; height: 100%; display: block; }
 
-  .stamp-badge { display: block; cursor: pointer; }
+  .stamp-ring { width: 100%; height: 100%; display: block; pointer-events: none; z-index: 0; }
+
+  .stamp-badge { display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 1; }
   .stamp-badge img {
-    width: 100%; height: auto; display: block;
+    width: 76%; height: auto; display: block;
     filter: drop-shadow(0 3px 4px rgba(0,0,0,.12));
     opacity: 0;
     transform: scale(2) rotate(-18deg);
@@ -183,19 +185,23 @@
       <img src="images/trail-dotted-line-fresh.svg" alt="">
     </div>
 
-    <a class="node stamp-badge" data-desc="나만의 개성 있는 캐릭터를 그려보세요! 완성한 캐릭터는 축제 기간 동안 곳곳에서 만나볼 수 있어요." style="left:11.19%; top:23.98%; width:30.35%;">
+    <img class="node stamp-ring" src="images/stamp-ring-1.svg" alt="" style="left:11.19%; top:23.98%; width:30.35%; height:6.15%;">
+    <img class="node stamp-ring" src="images/stamp-ring-middle.svg" alt="" style="left:10.95%; top:27.72%; width:80.35%; height:19.79%;">
+    <img class="node stamp-ring" src="images/stamp-ring-5.svg" alt="" style="left:11.19%; top:45.04%; width:30.35%; height:6.15%;">
+
+    <a class="node stamp-badge" data-desc="나만의 개성 있는 캐릭터를 그려보세요! 완성한 캐릭터는 축제 기간 동안 곳곳에서 만나볼 수 있어요." style="left:11.19%; top:23.98%; width:30.35%; height:6.15%;">
       <img src="images/stamp-milk-bottle.png" alt="나만의 우유 축제 캐릭터 만들기">
     </a>
-    <a class="node stamp-badge" data-desc="상하목장 장인의 노하우가 담긴 수제 치즈 만들기 체험. 직접 만든 치즈는 포장해서 가져가실 수 있어요." style="left:60.95%; top:27.73%; width:30.35%;">
+    <a class="node stamp-badge" data-desc="상하목장 장인의 노하우가 담긴 수제 치즈 만들기 체험. 직접 만든 치즈는 포장해서 가져가실 수 있어요." style="left:60.95%; top:27.73%; width:30.35%; height:5.67%;">
       <img src="images/stamp-cheese.png" alt="헛간 체험: 장인 치즈 만들기">
     </a>
-    <a class="node stamp-badge" data-desc="나만의 감성을 담은 상하 우유 라벨을 디자인하고 직접 병에 붙여보는 체험이에요." style="left:10.95%; top:34.53%; width:30.35%;">
+    <a class="node stamp-badge" data-desc="나만의 감성을 담은 상하 우유 라벨을 디자인하고 직접 병에 붙여보는 체험이에요." style="left:10.95%; top:34.53%; width:30.35%; height:6.15%;">
       <img src="images/stamp-yogurt.png" alt="헛간 체험: 상하 우유 라벨 만들기">
     </a>
-    <a class="node stamp-badge" data-desc="스타듀밸리 x 상하목장 컬래버 굿즈를 만나보세요. 굿즈 숍 '마니네'에서 구매 시 스탬프를 드려요." style="left:57.71%; top:41.34%; width:30.35%;">
+    <a class="node stamp-badge" data-desc="스타듀밸리 x 상하목장 컬래버 굿즈를 만나보세요. 굿즈 숍 '마니네'에서 구매 시 스탬프를 드려요." style="left:57.71%; top:41.34%; width:30.35%; height:6.15%;">
       <img src="images/stamp-butter.png" alt="굿즈 숍(마니네): 상하&스타듀 굿즈 구매">
     </a>
-    <a class="node stamp-badge" data-desc="상하목장의 신선한 유제품과 F&amp;B 메뉴를 맛보세요. 구매 영수증 제시 시 스탬프를 드려요." style="left:11.19%; top:45.04%; width:30.35%;">
+    <a class="node stamp-badge" data-desc="상하목장의 신선한 유제품과 F&amp;B 메뉴를 맛보세요. 구매 영수증 제시 시 스탬프를 드려요." style="left:11.19%; top:45.04%; width:30.35%; height:6.15%;">
       <img src="images/stamp-ice-cream.png" alt="F&B 유제품 식품 구매">
     </a>
 
