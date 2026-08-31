@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 import bgHero from '../assets/landing/bg-hero.png'
 import eventBannerSurvey from '../assets/landing/event-banner-survey.png'
 import eventImgEnvelope from '../assets/landing/event-img-envelope.png'
@@ -42,7 +42,17 @@ function Box({
   )
 }
 
+const NAV_LINKS = [
+  { label: 'STORY', href: '/pamphlet.html#story' },
+  { label: 'STAMP TOUR', href: '/stamptour.html' },
+  { label: '체험안내', href: '/stamptour.html#guide' },
+  { label: '페스티벌 F&B 및 굿즈', href: '/festival.html' },
+  { label: '오시는 길 및 안내', href: '/festival.html#location' },
+]
+
 export default function LandingStep({ onStart }: { onStart: () => void }) {
+  const [menuOpen, setMenuOpen] = useState(false)
+
   return (
     <div className="relative h-full w-full select-none">
       <img
@@ -107,7 +117,9 @@ export default function LandingStep({ onStart }: { onStart: () => void }) {
         </p>
       </Box>
       <Box left={89.801} top={7.323} width={7.463} height={3.432}>
-        <img src={headerIconMenu} alt="메뉴" className="size-full" />
+        <button type="button" onClick={() => setMenuOpen(true)} aria-label="메뉴 열기" className="size-full">
+          <img src={headerIconMenu} alt="" className="size-full" />
+        </button>
       </Box>
 
       <Box left={4.975} top={78.489} width={89.801} height={21.855}>
@@ -119,7 +131,47 @@ export default function LandingStep({ onStart }: { onStart: () => void }) {
           className="absolute"
           style={{ left: '1.4%', top: '1.1%', width: '96.9%', height: '44.6%' }}
         />
+        <a
+          href="/pamphlet.html"
+          aria-label="팜플렛 보기"
+          className="absolute"
+          style={{ left: '1.4%', top: '50%', width: '96.9%', height: '44.6%' }}
+        />
       </Box>
+
+      {menuOpen && (
+        <div className="absolute inset-0 z-30">
+          <button
+            type="button"
+            aria-label="메뉴 닫기"
+            onClick={() => setMenuOpen(false)}
+            className="absolute inset-0 bg-black/50"
+          />
+          <nav className="absolute top-0 right-0 flex h-full w-[76%] max-w-[300px] flex-col border-l-4 border-[#5c3a21] bg-[#f5f0e2] p-5 shadow-[-6px_0_16px_rgba(0,0,0,0.3)]">
+            <div className="mb-4 flex items-center justify-between border-b-2 border-dashed border-[#c09060] pb-3">
+              <p className="text-[15px] font-bold text-[#3a2110]">MENU</p>
+              <button
+                type="button"
+                onClick={() => setMenuOpen(false)}
+                aria-label="메뉴 닫기"
+                className="text-[20px] leading-none text-[#3a2110]"
+              >
+                ✕
+              </button>
+            </div>
+            <ul className="flex flex-col">
+              {NAV_LINKS.map((link) => (
+                <li key={link.label} className="border-b border-dashed border-[#c09060]">
+                  <a href={link.href} className="flex items-center justify-between py-3 text-[14px] font-bold text-[#3a2110]">
+                    <span>{link.label}</span>
+                    <span className="text-[#a6743a]">›</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+      )}
     </div>
   )
 }
