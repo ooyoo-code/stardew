@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
 <style>@import url('//fonts.googleapis.com/earlyaccess/jejugothic.css');</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Micro+5&display=swap">
 <style>
   :root{
     --sky-pale:#cdefff;
@@ -266,11 +267,29 @@
   .play-box{
     position:relative;
     width:100%;
+    margin-top:16px;
   }
   .play-box-bg{ width:100%; height:auto; display:block; }
+  .play-badge{
+    position:absolute;
+    top:-19px; left:50%;
+    transform:translateX(-50%);
+    width:30%;
+    min-width:100px;
+    z-index:2;
+  }
+  .play-badge img{ width:100%; height:auto; display:block; }
+  .play-badge span{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    padding-bottom:8%;
+    font-family:'Micro 5', 'Pretendard', sans-serif;
+    font-size:clamp(20px, 6vw, 28px);
+    color:#1c1c1c;
+  }
   .play-content{
     position:absolute;
-    left:9%; right:9%; top:29%; bottom:9%;
+    left:9%; right:9%; top:16%; bottom:8%;
     display:flex;
     flex-direction:column;
     justify-content:center;
@@ -529,10 +548,10 @@
     <section class="scene-bridge">
       <span class="warn-badge">WARNING</span>
       <p class="bridge-title">잠깐. 무언가 이상합니다.</p>
-      <p class="bridge-sub">축제 준비가 한창이던 그때, 누군가 훔쳐보는 것 같아요.</p>
+      <p class="bridge-sub">축제준비가 한창이던 그때,누군가가 훔쳐보는 것 같아요.</p>
 
       <div class="joja-box reveal">
-        <p class="joja-line">JOJA MART <img src="images/badge-joja-cap.png" alt="JOJA MART 모자"></p>
+        <p class="joja-line">JOJA MART <img src="images/warning-joja-logo.png" alt="JOJA MART 모자"></p>
         <p class="joja-quote">“이곳의 농장은 이제 저희것입니다.”</p>
         <div class="attack-strip">
           <p class="attack-title"><span class="bang">‼</span>FARM UNDER ATTACK</p>
@@ -575,7 +594,11 @@
       <div class="play-wrap reveal">
         <img class="cow-decoration" src="images/deco-cow.png" alt="젖소 캐릭터">
         <div class="play-box">
-          <img class="play-box-bg" src="images/play-banner-frame.png" alt="play! 규칙 안내">
+          <div class="play-badge">
+            <img src="images/reward-play-badge.svg" alt="">
+            <span>play!</span>
+          </div>
+          <img class="play-box-bg" src="images/reward-card-inner.svg" alt="play! 규칙 안내">
           <div class="play-content">
             <ol class="play-rules">
               <li data-n="1">스탬프 <b>5개</b>를 모아 <b>Special Gift</b> 교환</li>
