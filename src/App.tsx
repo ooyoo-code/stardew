@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef, useState, type RefObject } from 'react'
 import StepIndicator from './components/StepIndicator'
+import LandingStep from './components/LandingStep'
 import PhotoUploadStep, { type Selection } from './components/PhotoUploadStep'
 import ConvertingStep from './components/ConvertingStep'
 import DecorateStep, { type DecorateData } from './components/DecorateStep'
@@ -7,9 +8,10 @@ import DownloadStep from './components/DownloadStep'
 import bgScene from './assets/bg-scene.png'
 import btnHome from './assets/btn-home.png'
 
-type View = 'upload' | 'converting' | 'decorate' | 'download'
+type View = 'landing' | 'upload' | 'converting' | 'decorate' | 'download'
 
 const COPY: Record<View, { title: string; subtitle: string }> = {
+  landing: { title: '', subtitle: '' },
   upload: {
     title: '나만의 농부 캐릭터 만들기',
     subtitle: '사진을 올리거나 랜덤으로 시작해보세요!',
@@ -28,7 +30,7 @@ const COPY: Record<View, { title: string; subtitle: string }> = {
   },
 }
 
-const STEP_OF_VIEW: Record<View, number> = { upload: 1, converting: 1, decorate: 2, download: 3 }
+const STEP_OF_VIEW: Record<View, number> = { landing: 0, upload: 1, converting: 1, decorate: 2, download: 3 }
 
 /** Shrinks `ref`'s content to fit the current viewport height, so the app never needs to scroll. */
 function useFitScale(ref: RefObject<HTMLElement | null>, deps: unknown[]) {
@@ -59,7 +61,7 @@ function useFitScale(ref: RefObject<HTMLElement | null>, deps: unknown[]) {
 }
 
 function App() {
-  const [view, setView] = useState<View>('upload')
+  const [view, setView] = useState<View>('landing')
   const [selection, setSelection] = useState<Selection | null>(null)
   const [characterUrl, setCharacterUrl] = useState<string | null>(null)
   const [decorateData, setDecorateData] = useState<DecorateData>({ name: '', favorite: '', petIdx: 0, bgIdx: 0 })
@@ -88,27 +90,39 @@ function App() {
   return (
     <div className="flex h-[100svh] w-full justify-center overflow-hidden bg-white">
       <div className="relative h-full w-full max-w-[430px] overflow-hidden bg-[#0066f2]">
-        <img
-          src={bgScene}
-          alt=""
-          className="pointer-events-none absolute top-[16%] left-1/2 w-full min-w-[110%] -translate-x-1/2 select-none"
-        />
+        {view !== 'landing' && (
+          <img
+            src={bgScene}
+            alt=""
+            className="pointer-events-none absolute top-[16%] left-1/2 w-full min-w-[110%] -translate-x-1/2 select-none"
+          />
+        )}
 
         <main
           ref={mainRef}
           style={{ transform: `scale(${scale})`, transformOrigin: 'top center' }}
-          className="relative z-10 flex w-full flex-col items-center gap-6 px-5 pt-8 pb-10"
+          className={
+            view === 'landing'
+              ? 'relative z-10 flex w-full flex-col items-center'
+              : 'relative z-10 flex w-full flex-col items-center gap-6 px-5 pt-8 pb-10'
+          }
         >
-          <StepIndicator current={STEP_OF_VIEW[view]} reachable={furthestStep} onStepClick={handleStepClick} />
+          {view === 'landing' && <LandingStep onStart={() => setView('upload')} />}
 
-          <div className="flex flex-col items-center gap-2 text-center text-white">
-            <h1 className="text-[26px] leading-normal font-black [text-shadow:2px_2px_0_#5c3a21]">
-              {title}
-            </h1>
-            <p className="text-[14px] leading-snug font-medium [text-shadow:1px_1px_0_#5c3a21]">
-              {subtitle}
-            </p>
-          </div>
+          {view !== 'landing' && (
+            <>
+              <StepIndicator current={STEP_OF_VIEW[view]} reachable={furthestStep} onStepClick={handleStepClick} />
+
+              <div className="flex flex-col items-center gap-2 text-center text-white">
+                <h1 className="text-[26px] leading-normal font-black [text-shadow:2px_2px_0_#5c3a21]">
+                  {title}
+                </h1>
+                <p className="text-[14px] leading-snug font-medium [text-shadow:1px_1px_0_#5c3a21]">
+                  {subtitle}
+                </p>
+              </div>
+            </>
+          )}
 
           {view === 'upload' && (
             <PhotoUploadStep selection={selection} onSelectionChange={setSelection} onNext={handleUploadNext} />
@@ -148,17 +162,19 @@ function App() {
         </main>
       </div>
 
-      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-20 flex justify-center">
-        <div className="relative w-full max-w-[430px]">
-          <button
-            type="button"
-            onClick={() => setView('upload')}
-            className="pointer-events-auto absolute right-5 bottom-3 size-[72px] transition-transform active:scale-95"
-          >
-            <img src={btnHome} alt="홈으로" className="size-full" />
-          </button>
+      {view !== 'landing' && (
+        <div className="pointer-events-none fixed inset-x-0 bottom-0 z-20 flex justify-center">
+          <div className="relative w-full max-w-[430px]">
+            <button
+              type="button"
+              onClick={() => setView('landing')}
+              className="pointer-events-auto absolute right-5 bottom-3 size-[72px] transition-transform active:scale-95"
+            >
+              <img src={btnHome} alt="홈으로" className="size-full" />
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }
