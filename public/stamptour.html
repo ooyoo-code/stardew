@@ -21,7 +21,7 @@
 
   /* The whole Figma frame (402 x 2027) rendered as one proportional canvas,
      every child positioned by percentage of that frame so it scales as a unit. */
-  .canvas { position: relative; width: 100%; aspect-ratio: 402 / 2027; background: #cdefff; overflow: hidden; }
+  .canvas { position: relative; width: 100%; aspect-ratio: 402 / 2060.61; background: #cdefff; overflow: hidden; }
   .node { position: absolute; }
 
   /* -------- header -------- */
@@ -86,7 +86,7 @@
   .reward-rules .gold { color: #a4610a; }
   .reward-tag { display: flex; align-items: center; justify-content: center; }
   .reward-tag img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-  .reward-tag span { position: relative; font-family: 'Micro 5', 'Pretendard', sans-serif; font-size: clamp(18px, 5vw, 26px); color: #1c1c1c; padding-bottom: 6%; }
+  .reward-tag span { position: relative; font-family: 'Micro 5', 'Pretendard', sans-serif; font-size: clamp(22px, 6.4vw, 32px); color: #1c1c1c; padding-bottom: 6%; }
 
   .divider-line { border-top: 3px dashed #8a5a2f; }
 
@@ -154,20 +154,20 @@
   <div class="canvas">
 
     <!-- header -->
-    <a href="index.html" class="node site-logo" style="left:3.73%; top:3.06%; width:27.11%; height:1.33%;">
+    <a href="index.html" class="node site-logo" style="left:3.73%; top:3.01%; width:27.11%; height:1.31%;">
       <img src="images/sesac-logo-crop.png" alt="SESAC농부">
     </a>
-    <button class="node menu-toggle" aria-label="메뉴 열기" id="menuBtn" style="left:88.56%; top:3.26%; width:7.46%; height:1.48%;">
+    <button class="node menu-toggle" aria-label="메뉴 열기" id="menuBtn" style="left:88.56%; top:3.21%; width:7.46%; height:1.46%;">
       <span></span><span></span>
     </button>
 
     <!-- warning / joja mart -->
-    <div class="node warning-plate" style="left:-1.24%; top:5.67%; width:103.48%; height:11.30%;"></div>
-    <div class="node warning-pill" style="left:40.05%; top:6.56%; width:20.90%; height:1.33%;">WARNING</div>
-    <p class="node warning-heading" style="left:0; top:8.14%; width:100%; white-space:nowrap;">잠깐! 수상한 사람들이 들이닥쳤어요!</p>
-    <p class="node warning-caption" style="left:2%; top:9.62%; width:96%;">악덕 대기업 “조자마트”가 상하목장을 접수하려고 해요!</p>
+    <div class="node warning-plate" style="left:-1.24%; top:5.58%; width:103.48%; height:12.75%;"></div>
+    <div class="node warning-pill" style="left:40.05%; top:6.45%; width:20.90%; height:1.31%;">WARNING</div>
+    <p class="node warning-heading" style="left:0; top:8.01%; width:100%; white-space:nowrap;">잠깐! 수상한 사람들이 들이닥쳤어요!</p>
+    <p class="node warning-caption" style="left:2%; top:9.46%; width:96%;">악덕 대기업 “조자마트”가 상하목장을 접수하려고 해요!</p>
 
-    <div class="node joja-plate reveal" id="jojaCard" style="left:9.03%; top:11.04%; width:82.43%; height:6.7%;">
+    <div class="node joja-plate reveal" id="jojaCard" style="left:9.03%; top:10.86%; width:82.43%; height:6.59%;">
       <p class="node joja-heading" style="left:0; top:3.3%; width:100%;">JOJA MART</p>
       <p class="node joja-quote" style="left:0; top:22%; width:100%;">"이곳의 농장은 이제 저희것입니다."</p>
       <div class="node joja-strip" style="left:7%; top:41%; width:86%; height:56%;">
@@ -175,44 +175,44 @@
         <p class="joja-strip-sub">농부님들, 축제를 지켜주세요!</p>
       </div>
     </div>
-    <div class="node joja-logo" id="jojaLogo" style="left:63%; top:10.85%; width:10%; height:2%;">
+    <div class="node joja-logo" id="jojaLogo" style="left:63%; top:10.67%; width:10%; height:1.97%;">
       <img src="images/joja-logo-fresh.png" alt="JOJA MART 모자">
     </div>
 
     <!-- stamp reward -->
-    <p class="node eyebrow" style="left:0; top:18.20%; width:100%; white-space:nowrap;">STAMP REWARD</p>
-    <p class="node headline" style="left:4.23%; top:20.57%; width:91.54%;">축제를 지키는 방법!</p>
-    <p class="node subline" style="left:10.45%; top:22.10%; width:79.10%;">상하목장 곳곳을 탐방하며 <b>5개</b>의 스탬프를 모아보세요!</p>
-    <img class="node" src="images/deco-bubble-top-fresh.png" alt="" style="left:1%; top:18.20%; width:17.04%; height:4.54%;">
+    <p class="node eyebrow" style="left:0; top:19.53%; width:100%; white-space:nowrap;">STAMP REWARD</p>
+    <p class="node headline" style="left:4.23%; top:21.87%; width:91.54%;">축제를 지키는 방법!</p>
+    <p class="node subline" style="left:10.45%; top:23.37%; width:79.10%;">상하목장 곳곳을 탐방하며 <b>5개</b>의 스탬프를 모아보세요!</p>
+    <img class="node" src="images/deco-bubble-top-fresh.png" alt="" style="left:1%; top:19.53%; width:17.04%; height:4.47%;">
 
-    <div class="node trail-connector" style="left:35.07%; top:26.64%; width:29.55%; height:21.58%;">
+    <div class="node trail-connector" style="left:35.07%; top:27.84%; width:29.55%; height:21.23%;">
       <img src="images/trail-dotted-line-fresh.svg" alt="">
     </div>
 
-    <img class="node stamp-ring" src="images/stamp-ring-1.svg" alt="" style="left:11.19%; top:23.98%; width:30.35%; height:6.15%;">
-    <img class="node stamp-ring" src="images/stamp-ring-middle.svg" alt="" style="left:10.95%; top:27.72%; width:80.35%; height:19.79%;">
-    <img class="node stamp-ring" src="images/stamp-ring-5.svg" alt="" style="left:11.19%; top:45.04%; width:30.35%; height:6.15%;">
+    <img class="node stamp-ring" src="images/stamp-ring-1.svg" alt="" style="left:11.19%; top:25.22%; width:30.35%; height:6.05%;">
+    <img class="node stamp-ring" src="images/stamp-ring-middle.svg" alt="" style="left:10.95%; top:28.90%; width:80.35%; height:19.47%;">
+    <img class="node stamp-ring" src="images/stamp-ring-5.svg" alt="" style="left:11.19%; top:45.94%; width:30.35%; height:6.05%;">
 
-    <a class="node stamp-badge" data-desc="나만의 개성 있는 캐릭터를 그려보세요! 완성한 캐릭터는 축제 기간 동안 곳곳에서 만나볼 수 있어요." style="left:11.19%; top:23.98%; width:30.35%; height:6.15%;">
+    <a class="node stamp-badge" data-desc="나만의 개성 있는 캐릭터를 그려보세요! 완성한 캐릭터는 축제 기간 동안 곳곳에서 만나볼 수 있어요." style="left:11.19%; top:25.22%; width:30.35%; height:6.05%;">
       <img src="images/stamp-milk-bottle.png" alt="나만의 우유 축제 캐릭터 만들기">
     </a>
-    <a class="node stamp-badge" data-desc="상하목장 장인의 노하우가 담긴 수제 치즈 만들기 체험. 직접 만든 치즈는 포장해서 가져가실 수 있어요." style="left:60.95%; top:27.73%; width:30.35%; height:5.67%;">
+    <a class="node stamp-badge" data-desc="상하목장 장인의 노하우가 담긴 수제 치즈 만들기 체험. 직접 만든 치즈는 포장해서 가져가실 수 있어요." style="left:60.95%; top:28.91%; width:30.35%; height:5.58%;">
       <img src="images/stamp-cheese.png" alt="헛간 체험: 장인 치즈 만들기">
     </a>
-    <a class="node stamp-badge" data-desc="나만의 감성을 담은 상하 우유 라벨을 디자인하고 직접 병에 붙여보는 체험이에요." style="left:10.95%; top:34.53%; width:30.35%; height:6.15%;">
+    <a class="node stamp-badge" data-desc="나만의 감성을 담은 상하 우유 라벨을 디자인하고 직접 병에 붙여보는 체험이에요." style="left:10.95%; top:35.60%; width:30.35%; height:6.05%;">
       <img src="images/stamp-yogurt.png" alt="헛간 체험: 상하 우유 라벨 만들기">
     </a>
-    <a class="node stamp-badge" data-desc="스타듀밸리 x 상하목장 컬래버 굿즈를 만나보세요. 굿즈 숍 '마니네'에서 구매 시 스탬프를 드려요." style="left:57.71%; top:41.34%; width:30.35%; height:6.15%;">
+    <a class="node stamp-badge" data-desc="스타듀밸리 x 상하목장 컬래버 굿즈를 만나보세요. 굿즈 숍 '마니네'에서 구매 시 스탬프를 드려요." style="left:57.71%; top:42.30%; width:30.35%; height:6.05%;">
       <img src="images/stamp-butter.png" alt="굿즈 숍(마니네): 상하&스타듀 굿즈 구매">
     </a>
-    <a class="node stamp-badge" data-desc="상하목장의 신선한 유제품과 F&amp;B 메뉴를 맛보세요. 구매 영수증 제시 시 스탬프를 드려요." style="left:11.19%; top:45.04%; width:30.35%; height:6.15%;">
+    <a class="node stamp-badge" data-desc="상하목장의 신선한 유제품과 F&amp;B 메뉴를 맛보세요. 구매 영수증 제시 시 스탬프를 드려요." style="left:11.19%; top:45.94%; width:30.35%; height:6.05%;">
       <img src="images/stamp-ice-cream.png" alt="F&B 유제품 식품 구매">
     </a>
 
-    <img class="node" src="images/deco-milk-drops-fresh.svg" alt="" style="left:82.09%; top:47.95%; width:21.39%; height:2.96%;">
-    <img class="node" src="images/deco-cow-fresh.svg" alt="젖소 캐릭터" style="left:72.89%; top:50.91%; width:19.40%; height:4.19%;">
+    <img class="node" src="images/deco-milk-drops-fresh.svg" alt="" style="left:82.09%; top:48.80%; width:21.39%; height:2.91%;">
+    <img class="node" src="images/deco-cow-fresh.svg" alt="젖소 캐릭터" style="left:72.89%; top:51.71%; width:19.40%; height:4.12%;">
 
-    <div class="node reward-card reveal" id="rewardCard" style="left:7.96%; top:54.81%; width:86.57%; height:7.11%;">
+    <div class="node reward-card reveal" id="rewardCard" style="left:7.96%; top:55.55%; width:86.57%; height:6.99%;">
       <img src="images/reward-card-fresh.svg" alt="">
       <div class="node" style="left:6%; top:16%; width:88%; height:68%;">
         <ol class="reward-rules">
@@ -223,16 +223,16 @@
         </ol>
       </div>
     </div>
-    <div class="node reward-tag" style="left:35.82%; top:53.87%; width:30.10%; height:1.46%;">
+    <div class="node reward-tag" style="left:35.82%; top:54.62%; width:30.10%; height:1.44%;">
       <img src="images/reward-badge-fresh.svg" alt="">
       <span>play!</span>
     </div>
 
-    <div class="node divider-line" style="left:2%; top:63.94%; width:96%;"></div>
+    <div class="node divider-line" style="left:2%; top:64.53%; width:96%;"></div>
 
-    <p class="node attractions-label" style="left:0; top:65.86%; width:100%; text-align:center; white-space:nowrap;">ATTRACTIONS &amp; PROGRAMS</p>
+    <p class="node attractions-label" style="left:0; top:66.42%; width:100%; text-align:center; white-space:nowrap;">ATTRACTIONS &amp; PROGRAMS</p>
 
-    <div class="node exhibit-card reveal" id="card1" style="left:8.21%; top:67.79%; width:84.08%; height:11.25%;">
+    <div class="node exhibit-card reveal" id="card1" style="left:8.21%; top:68.32%; width:84.08%; height:11.07%;">
       <div class="node" style="left:3%; top:4%; width:94%; height:76%; overflow:hidden;">
         <img src="images/attraction-photo-fresh.png" alt="상하목장 버스정류장 포토존에서 기념촬영을 하는 방문객">
       </div>
@@ -241,7 +241,7 @@
       </div>
     </div>
 
-    <div class="node exhibit-card reveal" id="card2" style="left:8.71%; top:79.72%; width:84.08%; height:11.25%;">
+    <div class="node exhibit-card reveal" id="card2" style="left:8.71%; top:80.05%; width:84.08%; height:11.07%;">
       <div class="node" style="left:3%; top:4%; width:94%; height:76%; overflow:hidden;">
         <img src="images/attraction-photo-2.png" alt="나만의 우유성향 테스트에 참여해 스타듀밸리 우유를 시음하는 아이들">
       </div>
@@ -250,9 +250,9 @@
       </div>
     </div>
 
-    <a href="pamphlet.html" class="node return-link" style="left:31.34%; top:92.21%; width:37.56%; height:2.57%;">← 뒤로가기</a>
+    <a href="pamphlet.html" class="node return-link" style="left:31.34%; top:92.34%; width:37.56%; height:2.53%;">← 뒤로가기</a>
 
-    <div class="node promo-strip" style="left:-2.74%; top:96.01%; width:102.74%; height:3.85%;">
+    <div class="node promo-strip" style="left:-2.74%; top:96.08%; width:102.74%; height:3.79%;">
       <div class="node" style="left:14.93%; top:8%; width:12.94%; height:84%;">
         <img src="images/footer-gift-fresh.svg" alt="선물상자">
       </div>
