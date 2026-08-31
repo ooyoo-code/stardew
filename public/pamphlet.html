@@ -143,6 +143,14 @@
     margin-bottom:10px;
   }
 
+  /* ===== SCROLL REVEAL ===== */
+  .reveal{
+    opacity:0;
+    transform:translateY(22px);
+    transition:opacity .55s ease, transform .55s ease;
+  }
+  .reveal.in-view{ opacity:1; transform:none; }
+
   /* ===== PROLOGUE ===== */
   .prologue{ padding-top:18px; }
   h1{
@@ -192,13 +200,14 @@
   }
 
   /* ===== STORY ===== */
-  .story{ padding-top:4px; }
+  .story{ padding-top:18px; }
   .brand-row{
     display:flex; align-items:center; justify-content:center; gap:14px;
     margin-bottom:20px;
   }
   .brand-row img{ height:5vh; min-height:34px; width:auto; object-fit:contain; }
   .brand-row .stardew-logo{ height:5.6vh; min-height:38px; }
+  .brand-row .sangha-logo{ margin-top:8px; }
   .brand-row .x-mark{
     font-family:'Galmuri11', sans-serif;
     font-size:20px; color:var(--ink); font-weight:700;
@@ -289,11 +298,11 @@
   <main>
     <!-- ===== 1. PROLOGUE ===== -->
     <section class="prologue">
-      <p class="eyebrow">1. PROLOGUE</p>
+      <p class="eyebrow">PROLOGUE</p>
       <h1>할아버지의 편지가 도착했습니다.</h1>
       <p class="lead-sub">내가 힘들때 열어보라고 하셨지, 이번기회에 휴식하러 가볼까?</p>
 
-      <div class="letter-wrap">
+      <div class="letter-wrap reveal">
         <img class="letter-bg" src="images/parchment-note.png" alt="할아버지의 편지">
         <div class="letter-content">
           <p class="msg">"이 편지는 네가 지칠 때 열어보거라.<br>이 맘때 쯤 상하목장에서 축제가 열린단다.<br>축제 준비를 도와주렴"</p>
@@ -304,18 +313,18 @@
 
     <!-- ===== 2. STORY ===== -->
     <section class="story" id="story">
-      <p class="eyebrow">2. STORY</p>
+      <p class="eyebrow">STORY</p>
 
-      <div class="brand-row">
+      <div class="brand-row reveal">
         <img class="stardew-logo" src="images/stardew-logo-crop.png" alt="STARDEW VALLEY 로고">
         <span class="x-mark">X</span>
-        <img src="images/sanghha-logo.png" alt="상하목장 ORGANIC 로고">
+        <img class="sangha-logo" src="images/sanghha-logo.png" alt="상하목장 ORGANIC 로고">
       </div>
 
       <p class="desc-line">고창의 바람과 햇살을 그대로 담아낸 한 잔.</p>
       <p class="desc-line">온라인에서 즐기던 <span class="hl-green">힐링</span>을 유기농 <span class="hl-blue">우유</span>와 <span class="hl-gold">치즈</span>를 먹으며 도심 속<br>스트레스를 풀어보세요.</p>
 
-      <div class="info-box">
+      <div class="info-box reveal">
         <img class="info-box-bg" src="images/info-box-bg.png" alt="">
         <div class="info-box-content">
           <p>📅 기간: 2026.09.07 (월) ~ 09.20 (일)</p>
@@ -325,7 +334,7 @@
         </div>
       </div>
 
-      <div class="wood-btn-row">
+      <div class="wood-btn-row reveal">
         <a href="stamptour.html" class="wood-btn">
           <img src="images/wood-button.png" alt="">
           <span>스탬프투어 미리보기</span>
@@ -367,6 +376,23 @@
     if(menuBtn) menuBtn.addEventListener('click', openNav);
     if(overlay) overlay.addEventListener('click', closeNav);
     if(closeBtn) closeBtn.addEventListener('click', closeNav);
+  })();
+</script>
+<script>
+  (function(){
+    if(!('IntersectionObserver' in window)){
+      document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in-view'); });
+      return;
+    }
+    var observer = new IntersectionObserver(function(entries, obs){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('in-view');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold:.15, rootMargin:'0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal').forEach(function(el){ observer.observe(el); });
   })();
 </script>
 </body>
