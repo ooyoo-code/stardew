@@ -42,8 +42,9 @@
   .joja-plate { background: #fffdd2; border-radius: 6px; }
   .joja-heading { font-family: 'Galmuri11', sans-serif; font-size: 17px; color: #1c1c1c; text-align: center; }
   .joja-quote { font-family: 'Galmuri11', sans-serif; font-size: 13px; color: #1c1c1c; text-align: center; }
-  .joja-strip { background: #113f00; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; }
-  .joja-strip-title { font-family: 'Galmuri11', sans-serif; font-size: 13px; color: #ff3010; }
+  .joja-strip { background: #113f00; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; }
+  .joja-strip-title { font-family: 'Galmuri11', sans-serif; font-size: 13px; color: #ff4433; text-shadow: 0 1px 0 rgba(0,0,0,.55); }
+  .joja-strip-title .bang { font-size: 1.7em; color: #ffd400; text-shadow: 0 0 4px rgba(255,120,0,.7), 0 1px 0 rgba(0,0,0,.6); margin-right: 2px; display: inline-block; transform: rotate(-6deg); }
   .joja-strip-sub { font-family: 'Galmuri11', sans-serif; font-size: 11px; color: #fff; }
   .joja-logo img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
@@ -166,15 +167,15 @@
     <p class="node warning-heading" style="left:13.18%; top:8.14%; width:74.63%;">잠깐! 수상한 사람들이 들이닥쳤어요!</p>
     <p class="node warning-caption" style="left:2%; top:9.62%; width:96%;">악덕 대기업 “조자마트”가 상하목장을 접수하려고 해요!</p>
 
-    <div class="node joja-plate reveal" id="jojaCard" style="left:9.03%; top:11.04%; width:82.43%; height:5.01%;">
-      <p class="node joja-heading" style="left:0; top:8%; width:100%;">JOJA MART</p>
-      <p class="node joja-quote" style="left:0; top:32%; width:100%;">“이곳의 농장은 이제 저희것입니다.”</p>
-      <div class="node joja-strip" style="left:7%; top:55%; width:86%; height:38%;">
-        <p class="joja-strip-title">‼FARM UNDER ATTACK</p>
+    <div class="node joja-plate reveal" id="jojaCard" style="left:9.03%; top:11.04%; width:82.43%; height:5.6%;">
+      <p class="node joja-heading" style="left:0; top:4%; width:100%;">JOJA MART</p>
+      <p class="node joja-quote" style="left:0; top:26%; width:100%;">"이곳의 농장은 이제 저희것입니다."</p>
+      <div class="node joja-strip" style="left:7%; top:46%; width:86%; height:50%;">
+        <p class="joja-strip-title"><span class="bang">‼</span>FARM UNDER ATTACK</p>
         <p class="joja-strip-sub">농부님들, 축제를 지켜주세요!</p>
       </div>
     </div>
-    <div class="node joja-logo" style="left:75%; top:10.75%; width:11%; height:2.2%;">
+    <div class="node joja-logo" id="jojaLogo" style="left:63%; top:10.85%; width:10%; height:2%;">
       <img src="images/joja-logo-fresh.png" alt="JOJA MART 모자">
     </div>
 
