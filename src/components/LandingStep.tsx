@@ -12,7 +12,6 @@ import titleImgSubtitle from '../assets/landing/title-img-subtitle.png'
 import titleLogoSanghaFarm from '../assets/landing/title-logo-sangha-farm.png'
 import titleLogoStardewValley from '../assets/landing/title-logo-stardew-valley.png'
 import titleImgMainTitle from '../assets/landing/title-img-main-title.png'
-import titleIconX from '../assets/landing/title-icon-x.svg'
 import headerLogoIcon from '../assets/landing/header-logo-icon.svg'
 import headerIconMenu from '../assets/landing/header-icon-menu.svg'
 
@@ -95,7 +94,7 @@ export default function LandingStep({ onStart }: { onStart: () => void }) {
         <img src={titleLogoStardewValley} alt="STARDEW VALLEY" className="size-full object-contain" />
       </Box>
       <Box left={49.447} top={27.46} width={4.282} height={2.088} className="pointer-events-none flex items-center justify-center">
-        <img src={titleIconX} alt="x" style={{ width: '95.49%', height: '96.03%', transform: 'rotate(2.59deg) skewX(0.09deg)' }} />
+        <span className="font-['Galmuri11'] text-[20px] font-bold text-[#3a2612]">X</span>
       </Box>
       <Box left={57.463} top={26.545} width={24.129} height={4.577} className="pointer-events-none">
         <img src={titleLogoSanghaFarm} alt="상하목장 ORGANIC" className="size-full object-contain" />
