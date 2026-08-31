@@ -89,7 +89,7 @@ function App() {
 
   return (
     <div className="flex h-[100svh] w-full justify-center overflow-hidden bg-white">
-      <div className="relative h-full w-full max-w-[540px] overflow-hidden bg-[#0066f2]">
+      <div className="relative h-full w-full overflow-hidden bg-[#0066f2]">
         {view !== 'landing' && (
           <img
             src={bgScene}
@@ -168,7 +168,7 @@ function App() {
 
       {view !== 'landing' && (
         <div className="pointer-events-none fixed inset-x-0 bottom-0 z-20 flex justify-center">
-          <div className="relative w-full max-w-[540px]">
+          <div className="relative w-full">
             <button
               type="button"
               onClick={() => setView('landing')}
