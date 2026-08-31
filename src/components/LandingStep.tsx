@@ -44,7 +44,7 @@ function Box({
 
 export default function LandingStep({ onStart }: { onStart: () => void }) {
   return (
-    <div className="relative w-full select-none" style={{ aspectRatio: '402 / 874' }}>
+    <div className="relative h-full w-full select-none">
       <img
         src={bgHero}
         alt=""

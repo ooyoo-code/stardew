@@ -100,10 +100,14 @@ function App() {
 
         <main
           ref={mainRef}
-          style={{ transform: `scale(${scale})`, transformOrigin: 'top center' }}
+          style={
+            view === 'landing'
+              ? undefined
+              : { transform: `scale(${scale})`, transformOrigin: 'top center' }
+          }
           className={
             view === 'landing'
-              ? 'relative z-10 flex w-full flex-col items-center'
+              ? 'relative z-10 flex h-full w-full flex-col items-center'
               : 'relative z-10 flex w-full flex-col items-center gap-6 px-5 pt-8 pb-10'
           }
         >
