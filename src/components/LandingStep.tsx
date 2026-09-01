@@ -79,17 +79,17 @@ export default function LandingStep({ onStart }: { onStart: () => void }) {
           />
         </Box>
 
-        <Box left={22.388} top={29.462} width={23.632} height={7.102} className="pointer-events-none">
+        <Box left={19.701} top={29.284} width={24.814} height={7.457} className="pointer-events-none">
           <img src={titleLogoStardewValley} alt="STARDEW VALLEY" className="size-full object-contain" />
         </Box>
-        <Box left={49.447} top={31.161} width={4.282} height={2.817} className="pointer-events-none flex items-center justify-center">
+        <Box left={47.244} top={31.091} width={4.496} height={2.958} className="pointer-events-none flex items-center justify-center">
           <span className="font-['Galmuri11'] text-[20px] font-bold text-[#3a2612]">X</span>
         </Box>
-        <Box left={57.463} top={29.928} width={24.129} height={6.175} className="pointer-events-none">
+        <Box left={54.764} top={29.774} width={25.335} height={6.484} className="pointer-events-none">
           <img src={titleLogoSanghaFarm} alt="상하목장 ORGANIC" className="size-full object-contain" />
         </Box>
 
-        <Box left={10.945} top={37.955} width={83.333} height={10.807} className="pointer-events-none">
+        <Box left={8.334} top={37.955} width={83.333} height={10.807} className="pointer-events-none">
           <img src={titleImgSubtitle} alt="온라인에서 즐기던 힐링을 실제 팝업에서!" className="size-full object-contain" />
         </Box>
 
@@ -135,14 +135,13 @@ export default function LandingStep({ onStart }: { onStart: () => void }) {
         </header>
       </div>
 
-      {/* CTA footer — fixed height, never scales. Shorter than the button panel's own height, so
-          the plaque crops in tight around it (object-fit:cover keeps it a seamless wood texture).
-          The panel is pinned flush with the footer's own bottom edge and only overlaps upward,
-          into the hero above — never downward past the page's bottom edge, which would get
-          clipped by the landing view's overflow-hidden container. */}
+      {/* CTA footer — fixed height, never scales. The button panel is sized as a % of *this*
+          shorter footer (not a fixed px height), so shrinking the footer naturally shrinks the
+          buttons with it — they sit neatly inside the plaque with a small margin all around,
+          instead of overflowing past its edges. */}
       <div className="relative z-10 w-full shrink-0" style={{ aspectRatio: '804 / 210' }}>
         <img src={ctaBgFooter} alt="" className="pointer-events-none absolute inset-0 size-full object-cover" />
-        <Box left={14.28} top={-25.6} width={71.44} height={125.6}>
+        <Box left={14.28} top={4.53} width={71.44} height={90.94}>
           <img src={ctaImgButtons} alt="" className="pointer-events-none absolute size-full" />
           <button
             type="button"
