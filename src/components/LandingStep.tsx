@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from 'react'
 import bgHero from '../assets/landing/bg-hero.png'
-import eventBannerSurvey from '../assets/landing/event-banner-survey.png'
+import eventBtnSurvey from '../assets/landing/event-btn-survey.png'
 import eventImgEnvelope from '../assets/landing/event-img-envelope.png'
 import ctaBgFooter from '../assets/landing/cta-bg-footer.png'
 import ctaImgButtons from '../assets/landing/cta-img-buttons.png'
@@ -60,10 +60,17 @@ export default function LandingStep({ onStart }: { onStart: () => void }) {
         style={{ left: '-1.244%', top: '0%', width: '101.244%', height: '78.489%' }}
       />
 
-      {/* tilted "survey event" washi-tape banner */}
-      <Box left={-2.736} top={52.563} width={38.734} height={15.112} className="pointer-events-none flex items-center justify-center">
-        <img src={eventBannerSurvey} alt="설문 참여 이벤트 · 게임 아이템 받자!" style={{ width: '95.69%', height: '93.83%', transform: 'rotate(-3.21deg)' }} />
-      </Box>
+      {/* survey event CTA, always bobbing to draw the eye */}
+      <a
+        href="https://docs.google.com/forms/d/e/1FAIpQLSc9lyVQM1Q8uREsulopBc--9iBxikNgrT43qN59iMdCtu4gvg/viewform?usp=dialog"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="설문 참여 이벤트 · 게임 아이템 받기"
+        className="absolute flex items-center justify-center animate-[float-updown_2.6s_ease-in-out_infinite]"
+        style={{ left: '-2.736%', top: '54.6%', width: '48%', height: '11.04%' }}
+      >
+        <img src={eventBtnSurvey} alt="" className="size-full object-contain" />
+      </a>
 
       {/* tilted envelope illustration */}
       <Box left={43.284} top={34.796} width={78.603} height={35.104} className="pointer-events-none flex items-center justify-center">

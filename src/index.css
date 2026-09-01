@@ -42,6 +42,16 @@ body {
   }
 }
 
+@keyframes float-updown {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
 @keyframes character-idle {
   0%,
   55%,
