@@ -135,13 +135,13 @@ export default function LandingStep({ onStart }: { onStart: () => void }) {
         </header>
       </div>
 
-      {/* CTA footer — fixed height, never scales. The button panel is sized as a % of *this*
-          shorter footer (not a fixed px height), so shrinking the footer naturally shrinks the
-          buttons with it — they sit neatly inside the plaque with a small margin all around,
-          instead of overflowing past its edges. */}
+      {/* CTA footer — fixed height, never scales. The button panel keeps the source art's native
+          832:382 aspect ratio (width and height shrunk together) so the baked-in text is never
+          stretched — only the height % changed here would squash it. It's centered horizontally
+          and sits with a small margin top/bottom inside the shorter plaque. */}
       <div className="relative z-10 w-full shrink-0" style={{ aspectRatio: '804 / 210' }}>
         <img src={ctaBgFooter} alt="" className="pointer-events-none absolute inset-0 size-full object-cover" />
-        <Box left={14.28} top={4.53} width={71.44} height={90.94}>
+        <Box left={24.133} top={4.53} width={51.735} height={90.94}>
           <img src={ctaImgButtons} alt="" className="pointer-events-none absolute size-full" />
           <button
             type="button"
