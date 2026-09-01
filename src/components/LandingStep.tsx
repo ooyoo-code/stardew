@@ -135,10 +135,12 @@ export default function LandingStep({ onStart }: { onStart: () => void }) {
         </header>
       </div>
 
-      {/* CTA footer — fixed height (matches the grass art's own aspect ratio), never scales */}
-      <div className="relative z-10 w-full shrink-0" style={{ aspectRatio: '804 / 390' }}>
+      {/* CTA footer — fixed height, never scales. Shorter than the grass art's own aspect ratio,
+          so the background crops slightly (still a seamless ground texture) while the button panel
+          sits smaller and centered within it. */}
+      <div className="relative z-10 w-full shrink-0" style={{ aspectRatio: '804 / 290' }}>
         <img src={ctaBgFooter} alt="" className="pointer-events-none absolute inset-0 size-full object-cover" />
-        <Box left={4.975} top={3.59} width={89.801} height={97.95}>
+        <Box left={19} top={4.53} width={62} height={90.94}>
           <img src={ctaImgButtons} alt="" className="pointer-events-none absolute size-full" />
           <button
             type="button"
