@@ -181,7 +181,11 @@ function App() {
 
         <main
           ref={mainRef}
-          style={{ transform: `scale(${scale})`, transformOrigin: 'top center' }}
+          style={
+            view === 'landing'
+              ? undefined
+              : { transform: `scale(${scale})`, transformOrigin: 'top center' }
+          }
           className={
             view === 'landing'
               ? 'relative z-10 flex aspect-[402/874] w-full flex-col items-center'
