@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState, type RefObject } from 'react'
+import { useState } from 'react'
 import StepIndicator from './components/StepIndicator'
 import LandingStep from './components/LandingStep'
 import PhotoUploadStep, { type Selection } from './components/PhotoUploadStep'
@@ -7,72 +7,6 @@ import DecorateStep, { type DecorateData } from './components/DecorateStep'
 import DownloadStep from './components/DownloadStep'
 import bgScene from './assets/bg-scene.png'
 import btnHome from './assets/btn-home.png'
-import placeholderCharacter from './assets/characters/men-1.png'
-
-const PLACEHOLDER_DECORATE_DATA: DecorateData = { name: '', favorite: '', petIdx: 0, bgIdx: 0 }
-const NOOP = () => {}
-
-/**
- * Renders an off-screen copy of each non-landing step (same StepIndicator + title/subtitle +
- * step shell as the real `<main>`) purely to measure its natural, unscaled height. The upload /
- * decorate / download cards all have fixed-height inner boxes, so these heights are stable
- * regardless of the placeholder props below. Feeding the tallest of these into useFitScale keeps
- * the "main-parchment-card" the same on-screen width across every step, instead of each view
- * picking its own scale from its own content height.
- */
-function useSharedStepHeight() {
-  const [height, setHeight] = useState(0)
-  const refs = {
-    upload: useRef<HTMLDivElement>(null),
-    decorate: useRef<HTMLDivElement>(null),
-    download: useRef<HTMLDivElement>(null),
-  }
-
-  useLayoutEffect(() => {
-    const els = Object.values(refs).map((r) => r.current).filter((el): el is HTMLDivElement => el !== null)
-    if (els.length === 0) return
-
-    const recompute = () => setHeight(Math.max(...els.map((el) => el.scrollHeight)))
-    recompute()
-    const ro = new ResizeObserver(recompute)
-    els.forEach((el) => ro.observe(el))
-    return () => ro.disconnect()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const shell = (
-    <div aria-hidden className="pointer-events-none fixed top-0 left-0 invisible flex justify-center">
-      <div className="w-full max-w-[430px]">
-        <div ref={refs.upload} className="flex w-full flex-col items-center gap-6 px-5 pt-8 pb-10">
-          <StepIndicator current={1} reachable={1} onStepClick={NOOP} />
-          <div className="flex flex-col items-center gap-2 text-center">
-            <h1 className="text-[26px] leading-normal font-black">{COPY.upload.title}</h1>
-            <p className="text-[14px] leading-snug font-medium">{COPY.upload.subtitle}</p>
-          </div>
-          <PhotoUploadStep selection={null} onSelectionChange={NOOP} onNext={NOOP} />
-        </div>
-        <div ref={refs.decorate} className="flex w-full flex-col items-center gap-6 px-5 pt-8 pb-10">
-          <StepIndicator current={2} reachable={2} onStepClick={NOOP} />
-          <div className="flex flex-col items-center gap-2 text-center">
-            <h1 className="text-[26px] leading-normal font-black">{COPY.decorate.title}</h1>
-            <p className="text-[14px] leading-snug font-medium">{COPY.decorate.subtitle}</p>
-          </div>
-          <DecorateStep baseImage={placeholderCharacter} data={PLACEHOLDER_DECORATE_DATA} onChange={NOOP} onFinished={NOOP} />
-        </div>
-        <div ref={refs.download} className="flex w-full flex-col items-center gap-6 px-5 pt-8 pb-10">
-          <StepIndicator current={3} reachable={3} onStepClick={NOOP} />
-          <div className="flex flex-col items-center gap-2 text-center">
-            <h1 className="text-[26px] leading-normal font-black">{COPY.download.title}</h1>
-            <p className="text-[14px] leading-snug font-medium">{COPY.download.subtitle}</p>
-          </div>
-          <DownloadStep characterUrl={placeholderCharacter} data={PLACEHOLDER_DECORATE_DATA} onBackToDecorate={NOOP} />
-        </div>
-      </div>
-    </div>
-  )
-
-  return { sharedHeight: height, sharedHeightShell: shell }
-}
 
 type View = 'landing' | 'upload' | 'converting' | 'decorate' | 'download'
 
@@ -98,57 +32,12 @@ const COPY: Record<View, { title: string; subtitle: string }> = {
 
 const STEP_OF_VIEW: Record<View, number> = { landing: 0, upload: 1, converting: 1, decorate: 2, download: 3 }
 
-/**
- * Below this, we stop shrinking further and let the sheet scroll instead — keeps the UI at a
- * usable size on short phones (e.g. iPhone 13 mini with Safari's toolbar expanded) rather than
- * squeezing everything down to fit with no scroll at all.
- */
-const MIN_FIT_SCALE = 0.85
-
-/**
- * Scales `ref`'s content to fit the current viewport height, down to MIN_FIT_SCALE, so the
- * upload/decorate/download flow rarely needs to scroll. `floor` sets a minimum natural height to
- * scale against, even if the current view's own content is shorter — see useSharedStepHeight,
- * which keeps the card the same width on every step. Landing doesn't use this at all — see
- * LandingStep, which fits any viewport exactly via a flexible hero section instead of scaling.
- */
-function useFitScale(ref: RefObject<HTMLElement | null>, floor: number, deps: unknown[]) {
-  const [scale, setScale] = useState(1)
-
-  useLayoutEffect(() => {
-    const el = ref.current
-    if (!el) return
-
-    const recompute = () => {
-      const naturalHeight = Math.max(el.scrollHeight, floor)
-      const availableHeight = window.innerHeight
-      const rawScale = availableHeight / naturalHeight
-      setScale(naturalHeight > 0 ? Math.max(MIN_FIT_SCALE, Math.min(1, rawScale)) : 1)
-    }
-
-    recompute()
-    const ro = new ResizeObserver(recompute)
-    ro.observe(el)
-    window.addEventListener('resize', recompute)
-    return () => {
-      ro.disconnect()
-      window.removeEventListener('resize', recompute)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, deps)
-
-  return scale
-}
-
 function App() {
   const [view, setView] = useState<View>('landing')
   const [selection, setSelection] = useState<Selection | null>(null)
   const [characterUrl, setCharacterUrl] = useState<string | null>(null)
   const [decorateData, setDecorateData] = useState<DecorateData>({ name: '', favorite: '', petIdx: 0, bgIdx: 0 })
   const [furthestStep, setFurthestStep] = useState(1)
-  const mainRef = useRef<HTMLElement>(null)
-  const { sharedHeight, sharedHeightShell } = useSharedStepHeight()
-  const scale = useFitScale(mainRef, sharedHeight, [view, sharedHeight])
 
   const handleUploadNext = (sel: Selection) => {
     if (sel.source === 'upload') {
@@ -170,7 +59,6 @@ function App() {
 
   return (
     <div className="flex h-[100svh] w-full justify-center overflow-hidden bg-white">
-      {sharedHeightShell}
       <div
         className={`relative h-full w-full max-w-[430px] overflow-x-hidden ${
           view === 'landing' ? 'overflow-y-hidden bg-[#9a430e]' : 'overflow-y-auto bg-[#37901a]'
@@ -184,13 +72,12 @@ function App() {
           />
         )}
 
+        {/* Every step keeps this sheet at natural, full width — never scaled down — so the
+            "main-parchment-card" is always the same width, on every step and every screen size.
+            Taller steps (e.g. decorate, with its two inputs and two option rows) just make the
+            sheet scroll a bit further; nothing ever shrinks, stretches, or leaves empty space on
+            the sides. */}
         <main
-          ref={mainRef}
-          style={
-            view === 'landing'
-              ? undefined
-              : { transform: `scale(${scale})`, transformOrigin: 'top center' }
-          }
           className={
             view === 'landing'
               ? 'relative z-10 flex h-full w-full flex-col items-center'
