@@ -99,9 +99,17 @@ const COPY: Record<View, { title: string; subtitle: string }> = {
 const STEP_OF_VIEW: Record<View, number> = { landing: 0, upload: 1, converting: 1, decorate: 2, download: 3 }
 
 /**
- * Shrinks `ref`'s content to fit the current viewport height, so the app never needs to scroll.
- * `floor` sets a minimum natural height to scale against, even if the current view's own content
- * is shorter — see useSharedStepHeight, which keeps the card the same width on every step.
+ * Below this, we stop shrinking further and let the sheet scroll instead — keeps the UI at a
+ * usable size on short phones (e.g. iPhone 13 mini with Safari's toolbar expanded) rather than
+ * squeezing everything down to fit with no scroll at all.
+ */
+const MIN_FIT_SCALE = 0.85
+
+/**
+ * Shrinks `ref`'s content to fit the current viewport height, down to MIN_FIT_SCALE, so the app
+ * rarely needs to scroll. `floor` sets a minimum natural height to scale against, even if the
+ * current view's own content is shorter — see useSharedStepHeight, which keeps the card the same
+ * width on every step.
  */
 function useFitScale(ref: RefObject<HTMLElement | null>, floor: number, deps: unknown[]) {
   const [scale, setScale] = useState(1)
@@ -113,7 +121,8 @@ function useFitScale(ref: RefObject<HTMLElement | null>, floor: number, deps: un
     const recompute = () => {
       const naturalHeight = Math.max(el.scrollHeight, floor)
       const availableHeight = window.innerHeight
-      setScale(naturalHeight > 0 ? Math.min(1, availableHeight / naturalHeight) : 1)
+      const rawScale = availableHeight / naturalHeight
+      setScale(naturalHeight > 0 ? Math.max(MIN_FIT_SCALE, Math.min(1, rawScale)) : 1)
     }
 
     recompute()
@@ -138,7 +147,7 @@ function App() {
   const [furthestStep, setFurthestStep] = useState(1)
   const mainRef = useRef<HTMLElement>(null)
   const { sharedHeight, sharedHeightShell } = useSharedStepHeight()
-  const scale = useFitScale(mainRef, sharedHeight, [view, sharedHeight])
+  const scale = useFitScale(mainRef, view === 'landing' ? 0 : sharedHeight, [view, sharedHeight])
 
   const handleUploadNext = (sel: Selection) => {
     if (sel.source === 'upload') {
@@ -161,7 +170,7 @@ function App() {
   return (
     <div className="flex h-[100svh] w-full justify-center overflow-hidden bg-white">
       {sharedHeightShell}
-      <div className="relative h-full w-full max-w-[430px] overflow-hidden bg-[#0066f2]">
+      <div className="relative h-full w-full max-w-[430px] overflow-x-hidden overflow-y-auto bg-[#0066f2]">
         {view !== 'landing' && (
           <img
             src={bgScene}
@@ -172,14 +181,10 @@ function App() {
 
         <main
           ref={mainRef}
-          style={
-            view === 'landing'
-              ? undefined
-              : { transform: `scale(${scale})`, transformOrigin: 'top center' }
-          }
+          style={{ transform: `scale(${scale})`, transformOrigin: 'top center' }}
           className={
             view === 'landing'
-              ? 'relative z-10 flex h-full w-full flex-col items-center'
+              ? 'relative z-10 flex aspect-[402/874] w-full flex-col items-center'
               : 'relative z-10 flex w-full flex-col items-center gap-6 px-5 pt-8 pb-10'
           }
         >
