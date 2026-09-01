@@ -6,7 +6,6 @@
 <title>팜플렛 | 스타듀밸리 x 상하목장 팝업스토어</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
-<style>@import url('//fonts.googleapis.com/earlyaccess/jejugothic.css');</style>
 <style>
   :root{
     --sky-top:#bfe4f7;
@@ -58,7 +57,8 @@
     padding:2.4vh 20px 1.6vh;
     flex:0 0 auto;
   }
-  .logo img{ height:3.6vh; width:auto; display:block; min-height:26px; }
+  .logo{ flex-shrink:0; }
+  .logo img{ height:3.6vh; height:3.6dvh; width:auto; display:block; min-height:26px; }
   .menu-btn{
     display:flex; flex-direction:column; gap:5px;
     background:none; border:none; cursor:pointer; padding:6px;
@@ -194,14 +194,14 @@
     justify-content:space-between;
   }
   .letter-content .msg{
-    font-family:'Jeju Gothic', 'Pretendard', sans-serif;
+    font-family:'Pretendard', sans-serif;
     font-size:clamp(12.5px, 3.9vw, 16px);
     font-weight:800;
     color:var(--ink);
     line-height:1.6;
   }
   .letter-content .signature{
-    font-family:'Jeju Gothic', 'Pretendard', sans-serif;
+    font-family:'Pretendard', sans-serif;
     align-self:flex-end;
     margin-right:8%;
     font-size:clamp(10.5px, 3.1vw, 13px);
