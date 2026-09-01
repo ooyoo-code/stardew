@@ -67,46 +67,46 @@ export default function LandingStep({ onStart }: { onStart: () => void }) {
         rel="noopener noreferrer"
         aria-label="설문 참여 이벤트 · 게임 아이템 받기"
         className="absolute flex items-center justify-center animate-[float-updown_2.6s_ease-in-out_infinite]"
-        style={{ left: '-2.736%', top: '52.56%', width: '41.9%', height: '12.845%' }}
+        style={{ left: '-2.736%', top: '48.195%', width: '41.9%', height: '12.845%' }}
       >
         <img src={eventBtnSurvey} alt="" className="size-full object-contain" />
       </a>
 
       {/* tilted envelope illustration */}
-      <Box left={43.284} top={34.796} width={78.603} height={35.104} className="pointer-events-none flex items-center justify-center">
+      <Box left={43.284} top={30.431} width={78.603} height={35.104} className="pointer-events-none flex items-center justify-center">
         <img src={eventImgEnvelope} alt="" style={{ width: '83.40%', height: '81.81%', transform: 'rotate(-13.86deg)' }} />
       </Box>
 
-      <img src={ctaBgFooter} alt="" className="pointer-events-none absolute object-cover" style={{ left: 0, top: '77.688%', width: '100%', height: '22.312%' }} />
+      <img src={ctaBgFooter} alt="" className="pointer-events-none absolute object-cover" style={{ left: 0, top: '73.323%', width: '100%', height: '22.312%' }} />
 
-      <Box left={75.124} top={59.725} width={19.652} height={18.764} className="pointer-events-none">
+      <Box left={75.124} top={55.36} width={19.652} height={18.764} className="pointer-events-none">
         <img src={character4} alt="" className="size-full object-contain" />
       </Box>
-      <Box left={60.945} top={62.586} width={17.413} height={15.904} className="pointer-events-none">
+      <Box left={60.945} top={58.221} width={17.413} height={15.904} className="pointer-events-none">
         <img src={character3} alt="" className="size-full object-contain" />
       </Box>
-      <Box left={43.284} top={60.412} width={23.134} height={17.391} className="pointer-events-none">
+      <Box left={43.284} top={56.047} width={23.134} height={17.391} className="pointer-events-none">
         <img src={character2} alt="" className="size-full object-contain" />
       </Box>
-      <Box left={31.841} top={61.671} width={17.662} height={16.133} className="pointer-events-none">
+      <Box left={31.841} top={57.306} width={17.662} height={16.133} className="pointer-events-none">
         <img src={character1} alt="" className="size-full object-contain" />
       </Box>
 
-      <Box left={10.945} top={32.494} width={83.333} height={8.009} className="pointer-events-none">
+      <Box left={10.945} top={28.129} width={83.333} height={8.009} className="pointer-events-none">
         <img src={titleImgSubtitle} alt="온라인에서 즐기던 힐링을 실제 팝업에서!" className="size-full object-contain" />
       </Box>
 
-      <Box left={22.388} top={26.201} width={23.632} height={5.263} className="pointer-events-none">
+      <Box left={22.388} top={21.836} width={23.632} height={5.263} className="pointer-events-none">
         <img src={titleLogoStardewValley} alt="STARDEW VALLEY" className="size-full object-contain" />
       </Box>
-      <Box left={49.447} top={27.46} width={4.282} height={2.088} className="pointer-events-none flex items-center justify-center">
+      <Box left={49.447} top={23.095} width={4.282} height={2.088} className="pointer-events-none flex items-center justify-center">
         <span className="font-['Galmuri11'] text-[20px] font-bold text-[#3a2612]">X</span>
       </Box>
-      <Box left={57.463} top={26.545} width={24.129} height={4.577} className="pointer-events-none">
+      <Box left={57.463} top={22.18} width={24.129} height={4.577} className="pointer-events-none">
         <img src={titleLogoSanghaFarm} alt="상하목장 ORGANIC" className="size-full object-contain" />
       </Box>
 
-      <Box left={0} top={12.7} width={94.776} height={12.815} className="pointer-events-none overflow-hidden">
+      <Box left={0} top={8.335} width={94.776} height={12.815} className="pointer-events-none overflow-hidden">
         <img
           src={titleImgMainTitle}
           alt="스타듀밸리 속 상하목장을 지켜라!"
@@ -115,19 +115,19 @@ export default function LandingStep({ onStart }: { onStart: () => void }) {
         />
       </Box>
 
-      <Box left={4.975} top={6.865} width={27.114} height={3.089} className="overflow-hidden">
+      <Box left={4.975} top={2.5} width={27.114} height={3.089} className="overflow-hidden">
         <img src={headerLogoIcon} alt="" className="absolute" style={{ left: '2.34%', top: '-4%', width: '25.5%', height: '104%' }} />
         <p className="absolute text-[13px] font-bold text-[#16342a]" style={{ left: '30.88%', top: '31.03%' }}>
           SESAC농부
         </p>
       </Box>
-      <Box left={89.801} top={7.323} width={7.463} height={3.432}>
+      <Box left={89.801} top={2.958} width={7.463} height={3.432}>
         <button type="button" onClick={() => setMenuOpen(true)} aria-label="메뉴 열기" className="size-full">
           <img src={headerIconMenu} alt="" className="size-full" />
         </button>
       </Box>
 
-      <Box left={4.975} top={78.489} width={89.801} height={21.855}>
+      <Box left={4.975} top={74.124} width={89.801} height={21.855}>
         <img src={ctaImgButtons} alt="" className="pointer-events-none absolute size-full" />
         <button
           type="button"
