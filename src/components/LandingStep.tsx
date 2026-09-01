@@ -136,17 +136,12 @@ export default function LandingStep({ onStart }: { onStart: () => void }) {
       </div>
 
       {/* CTA footer — fixed height, never scales. The button panel keeps the source art's native
-          832:382 aspect ratio (width and height shrunk together) so the baked-in text is never
-          stretched — only the height % changed here would squash it. It's centered horizontally
-          and sits with a small margin top/bottom inside the shorter plaque. */}
+          992:382 aspect ratio (width and height sized together) so the baked-in text is never
+          stretched. It's centered horizontally and sits with a small margin top/bottom inside
+          the plaque. */}
       <div className="relative z-10 w-full shrink-0" style={{ aspectRatio: '804 / 210' }}>
-        <img
-          src={ctaBgFooter}
-          alt=""
-          className="pointer-events-none absolute inset-y-0 object-cover"
-          style={{ left: '17%', width: '66%' }}
-        />
-        <Box left={24.133} top={4.53} width={51.735} height={90.94}>
+        <img src={ctaBgFooter} alt="" className="pointer-events-none absolute inset-0 size-full object-cover" />
+        <Box left={19.152} top={4.53} width={61.696} height={90.94}>
           <img src={ctaImgButtons} alt="" className="pointer-events-none absolute size-full" />
           <button
             type="button"
