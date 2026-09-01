@@ -67,7 +67,7 @@ export default function LandingStep({ onStart }: { onStart: () => void }) {
         rel="noopener noreferrer"
         aria-label="설문 참여 이벤트 · 게임 아이템 받기"
         className="absolute flex items-center justify-center animate-[float-updown_2.6s_ease-in-out_infinite]"
-        style={{ left: '-2.736%', top: '52.56%', width: '43.81%', height: '15.112%' }}
+        style={{ left: '-2.736%', top: '52.56%', width: '49.29%', height: '15.112%' }}
       >
         <img src={eventBtnSurvey} alt="" className="size-full object-contain" />
       </a>
