@@ -135,12 +135,14 @@ export default function LandingStep({ onStart }: { onStart: () => void }) {
         </header>
       </div>
 
-      {/* CTA footer — fixed height, never scales. Shorter than the grass art's own aspect ratio,
-          so the background crops slightly (still a seamless ground texture) while the button panel
-          sits smaller and centered within it. */}
-      <div className="relative z-10 w-full shrink-0" style={{ aspectRatio: '804 / 290' }}>
+      {/* CTA footer — fixed height, never scales. Shorter than the button panel's own height, so
+          the plaque crops in tight around it (object-fit:cover keeps it a seamless wood texture).
+          The panel is pinned flush with the footer's own bottom edge and only overlaps upward,
+          into the hero above — never downward past the page's bottom edge, which would get
+          clipped by the landing view's overflow-hidden container. */}
+      <div className="relative z-10 w-full shrink-0" style={{ aspectRatio: '804 / 210' }}>
         <img src={ctaBgFooter} alt="" className="pointer-events-none absolute inset-0 size-full object-cover" />
-        <Box left={14.28} top={4.53} width={71.44} height={90.94}>
+        <Box left={14.28} top={-25.6} width={71.44} height={125.6}>
           <img src={ctaImgButtons} alt="" className="pointer-events-none absolute size-full" />
           <button
             type="button"
