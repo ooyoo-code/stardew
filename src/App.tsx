@@ -64,26 +64,34 @@ function App() {
           view === 'landing' ? 'overflow-y-hidden bg-[#9a430e]' : 'overflow-y-auto bg-[#37901a]'
         }`}
       >
-        {view !== 'landing' && (
-          <img
-            src={bgScene}
-            alt=""
-            className="pointer-events-none absolute top-[16%] left-1/2 w-full min-w-[110%] -translate-x-1/2 select-none"
-          />
-        )}
+        {/* This inner wrapper is only needed for the non-landing flow: it's exactly as tall as
+            the current step's content (min-h-full so short steps like upload still fill the
+            viewport), so the background image below — sized to inset-0 of *this*, not the
+            scroll container — always covers every pixel of it, including whatever's below the
+            fold on taller steps like decorate. Landing doesn't need this; its own hero section
+            already covers the full height with no separate background layer. */}
+        <div className={view === 'landing' ? 'contents' : 'relative min-h-full w-full'}>
+          {view !== 'landing' && (
+            <img
+              src={bgScene}
+              alt=""
+              className="pointer-events-none absolute inset-0 size-full object-cover select-none"
+              style={{ objectPosition: 'center top' }}
+            />
+          )}
 
-        {/* Every step keeps this sheet at natural, full width — never scaled down — so the
-            "main-parchment-card" is always the same width, on every step and every screen size.
-            Taller steps (e.g. decorate, with its two inputs and two option rows) just make the
-            sheet scroll a bit further; nothing ever shrinks, stretches, or leaves empty space on
-            the sides. */}
-        <main
-          className={
-            view === 'landing'
-              ? 'relative z-10 flex h-full w-full flex-col items-center'
-              : 'relative z-10 flex w-full flex-col items-center gap-6 px-5 pt-8 pb-10'
-          }
-        >
+          {/* Every step keeps this sheet at natural, full width — never scaled down — so the
+              "main-parchment-card" is always the same width, on every step and every screen size.
+              Taller steps (e.g. decorate, with its two inputs and two option rows) just make the
+              sheet scroll a bit further; nothing ever shrinks, stretches, or leaves empty space on
+              the sides. */}
+          <main
+            className={
+              view === 'landing'
+                ? 'relative z-10 flex h-full w-full flex-col items-center'
+                : 'relative z-10 flex w-full flex-col items-center gap-6 px-5 pt-8 pb-10'
+            }
+          >
           {view === 'landing' && <LandingStep onStart={() => setView('upload')} />}
 
           {view !== 'landing' && (
@@ -136,7 +144,8 @@ function App() {
               onBackToDecorate={() => setView('decorate')}
             />
           )}
-        </main>
+          </main>
+        </div>
       </div>
 
       {view !== 'landing' && (
