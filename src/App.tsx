@@ -170,7 +170,11 @@ function App() {
   return (
     <div className="flex h-[100svh] w-full justify-center overflow-hidden bg-white">
       {sharedHeightShell}
-      <div className="relative h-full w-full max-w-[430px] overflow-x-hidden overflow-y-auto bg-[#0066f2]">
+      <div
+        className={`relative h-full w-full max-w-[430px] overflow-x-hidden overflow-y-auto ${
+          view === 'landing' ? 'bg-[#9a430e]' : 'bg-[#37901a]'
+        }`}
+      >
         {view !== 'landing' && (
           <img
             src={bgScene}
