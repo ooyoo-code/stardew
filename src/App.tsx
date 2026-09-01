@@ -106,12 +106,28 @@ const STEP_OF_VIEW: Record<View, number> = { landing: 0, upload: 1, converting: 
 const MIN_FIT_SCALE = 0.85
 
 /**
- * Shrinks `ref`'s content to fit the current viewport height, down to MIN_FIT_SCALE, so the app
- * rarely needs to scroll. `floor` sets a minimum natural height to scale against, even if the
- * current view's own content is shorter — see useSharedStepHeight, which keeps the card the same
- * width on every step.
+ * Landing scales up to fill tall viewports too (see LANDING_MAX_SCALE below), which grows it wider
+ * than the sheet and relies on the parent clipping the sides evenly. Past this scale the header's
+ * menu button — the element closest to the design's right edge — would start losing its clipped
+ * corner to that crop, so growth stops just short of that.
  */
-function useFitScale(ref: RefObject<HTMLElement | null>, floor: number, deps: unknown[]) {
+const LANDING_MAX_SCALE = 1.05
+
+/**
+ * Scales `ref`'s content to fit the current viewport height. `floor` sets a minimum natural height
+ * to scale against, even if the current view's own content is shorter — see useSharedStepHeight,
+ * which keeps the card the same width on every step. `min`/`max` bound the result: the
+ * upload/decorate/download flow stops shrinking at MIN_FIT_SCALE and lets the sheet scroll the
+ * rest of the way rather than squeezing further; landing has no lower bound (short viewports just
+ * shrink to fit with no scroll) but is capped at LANDING_MAX_SCALE so it doesn't grow past the
+ * point where cropping the sides would clip the menu button.
+ */
+function useFitScale(
+  ref: RefObject<HTMLElement | null>,
+  floor: number,
+  bounds: { min?: number; max?: number },
+  deps: unknown[],
+) {
   const [scale, setScale] = useState(1)
 
   useLayoutEffect(() => {
@@ -122,7 +138,10 @@ function useFitScale(ref: RefObject<HTMLElement | null>, floor: number, deps: un
       const naturalHeight = Math.max(el.scrollHeight, floor)
       const availableHeight = window.innerHeight
       const rawScale = availableHeight / naturalHeight
-      setScale(naturalHeight > 0 ? Math.max(MIN_FIT_SCALE, Math.min(1, rawScale)) : 1)
+      let next = rawScale
+      if (bounds.min !== undefined) next = Math.max(bounds.min, next)
+      if (bounds.max !== undefined) next = Math.min(bounds.max, next)
+      setScale(naturalHeight > 0 ? next : 1)
     }
 
     recompute()
@@ -147,7 +166,12 @@ function App() {
   const [furthestStep, setFurthestStep] = useState(1)
   const mainRef = useRef<HTMLElement>(null)
   const { sharedHeight, sharedHeightShell } = useSharedStepHeight()
-  const scale = useFitScale(mainRef, view === 'landing' ? 0 : sharedHeight, [view, sharedHeight])
+  const scale = useFitScale(
+    mainRef,
+    view === 'landing' ? 0 : sharedHeight,
+    view === 'landing' ? { max: LANDING_MAX_SCALE } : { min: MIN_FIT_SCALE, max: 1 },
+    [view, sharedHeight],
+  )
 
   const handleUploadNext = (sel: Selection) => {
     if (sel.source === 'upload') {
@@ -171,8 +195,8 @@ function App() {
     <div className="flex h-[100svh] w-full justify-center overflow-hidden bg-white">
       {sharedHeightShell}
       <div
-        className={`relative h-full w-full max-w-[430px] overflow-x-hidden overflow-y-auto ${
-          view === 'landing' ? 'bg-[#9a430e]' : 'bg-[#37901a]'
+        className={`relative h-full w-full max-w-[430px] overflow-x-hidden ${
+          view === 'landing' ? 'overflow-y-hidden bg-[#9a430e]' : 'overflow-y-auto bg-[#37901a]'
         }`}
       >
         {view !== 'landing' && (
@@ -185,11 +209,7 @@ function App() {
 
         <main
           ref={mainRef}
-          style={
-            view === 'landing'
-              ? undefined
-              : { transform: `scale(${scale})`, transformOrigin: 'top center' }
-          }
+          style={{ transform: `scale(${scale})`, transformOrigin: 'top center' }}
           className={
             view === 'landing'
               ? 'relative z-10 flex aspect-[402/874] w-full flex-col items-center'
