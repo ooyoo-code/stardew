@@ -140,7 +140,12 @@ export default function LandingStep({ onStart }: { onStart: () => void }) {
           stretched — only the height % changed here would squash it. It's centered horizontally
           and sits with a small margin top/bottom inside the shorter plaque. */}
       <div className="relative z-10 w-full shrink-0" style={{ aspectRatio: '804 / 210' }}>
-        <img src={ctaBgFooter} alt="" className="pointer-events-none absolute inset-0 size-full object-cover" />
+        <img
+          src={ctaBgFooter}
+          alt=""
+          className="pointer-events-none absolute inset-y-0 object-cover"
+          style={{ left: '17%', width: '66%' }}
+        />
         <Box left={24.133} top={4.53} width={51.735} height={90.94}>
           <img src={ctaImgButtons} alt="" className="pointer-events-none absolute size-full" />
           <button
