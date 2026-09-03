@@ -3,7 +3,7 @@ import { backgrounds } from '../data/backgrounds'
 import type { DecorateData } from '../components/DecorateStep'
 
 const CANVAS_W = 1200
-const CANVAS_H = 968
+const CANVAS_H = 1200
 
 function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
@@ -26,6 +26,35 @@ function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: numbe
   ctx.moveTo(x + r, y)
   ctx.arcTo(x + w, y, x + w, y + h, r)
   ctx.arcTo(x + w, y + h, x, y + h, r)
+  ctx.arcTo(x, y + h, x, y, r)
+  ctx.arcTo(x, y, x + w, y, r)
+  ctx.closePath()
+}
+
+// Same rounded rect, but with a small triangular tail poking out of the bottom edge —
+// traced as one continuous path so the fill/stroke reads as a single speech bubble
+// instead of a plain tag with a separate triangle glued underneath.
+function speechBubblePath(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  r: number,
+  tailFromLeft: number,
+  tailW: number,
+  tailH: number,
+) {
+  const tailX0 = x + tailFromLeft
+  const tailX1 = tailX0 + tailW
+  const tailApexX = tailX0 + tailW * 0.3
+  ctx.beginPath()
+  ctx.moveTo(x + r, y)
+  ctx.arcTo(x + w, y, x + w, y + h, r)
+  ctx.arcTo(x + w, y + h, x, y + h, r)
+  ctx.lineTo(tailX1, y + h)
+  ctx.lineTo(tailApexX, y + h + tailH)
+  ctx.lineTo(tailX0, y + h)
   ctx.arcTo(x, y + h, x, y, r)
   ctx.arcTo(x, y, x + w, y, r)
   ctx.closePath()
@@ -92,7 +121,9 @@ export async function composeCharacterImage(characterUrl: string, data: Decorate
     ctx.fillStyle = '#ffffff'
     ctx.strokeStyle = '#3a2110'
     ctx.lineWidth = CANVAS_H * 0.006
-    roundRect(ctx, bubbleX, bubbleY, bubbleW, bubbleH, 10)
+    const tailW = CANVAS_H * 0.018
+    const tailH = CANVAS_H * 0.016
+    speechBubblePath(ctx, bubbleX, bubbleY, bubbleW, bubbleH, 10, bubbleW * 0.12, tailW, tailH)
     ctx.fill()
     ctx.stroke()
 
