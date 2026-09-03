@@ -1,13 +1,13 @@
-import men1 from '../assets/characters/men-1.png'
-import men2 from '../assets/characters/men-2.png'
-import men3 from '../assets/characters/men-3.png'
-import men4 from '../assets/characters/men-4.png'
-import men5 from '../assets/characters/men-5.png'
-import women1 from '../assets/characters/women-1.png'
-import women2 from '../assets/characters/women-2.png'
-import women3 from '../assets/characters/women-3.png'
-import women4 from '../assets/characters/women-4.png'
-import women5 from '../assets/characters/women-5.png'
+import men1 from '../assets/characters/men-1.webp'
+import men2 from '../assets/characters/men-2.webp'
+import men3 from '../assets/characters/men-3.webp'
+import men4 from '../assets/characters/men-4.webp'
+import men5 from '../assets/characters/men-5.webp'
+import women1 from '../assets/characters/women-1.webp'
+import women2 from '../assets/characters/women-2.webp'
+import women3 from '../assets/characters/women-3.webp'
+import women4 from '../assets/characters/women-4.webp'
+import women5 from '../assets/characters/women-5.webp'
 
 export const randomCharacters = [
   men1,

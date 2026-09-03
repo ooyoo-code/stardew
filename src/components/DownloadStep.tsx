@@ -2,9 +2,9 @@ import { useState } from 'react'
 import { pets } from '../data/pets'
 import { backgrounds } from '../data/backgrounds'
 import { composeCharacterImage } from '../lib/composeCharacterImage'
-import btnDownload from '../assets/btn-download.png'
-import btnShare from '../assets/btn-share.png'
-import btnRedecorate from '../assets/btn-redecorate.png'
+import btnDownload from '../assets/btn-download.webp'
+import btnShare from '../assets/btn-share.webp'
+import btnRedecorate from '../assets/btn-redecorate.webp'
 import type { DecorateData } from './DecorateStep'
 
 type Message = 'error' | 'opened-ios' | 'share-unsupported' | null

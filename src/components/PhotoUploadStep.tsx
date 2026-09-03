@@ -1,8 +1,8 @@
 import { useRef, useState } from 'react'
 import leafIcon from '../assets/icon-leaf.svg'
-import uploadPlaceholder from '../assets/upload-placeholder.png'
-import btnRandom from '../assets/btn-random.png'
-import btnNext from '../assets/btn-next.png'
+import uploadPlaceholder from '../assets/upload-placeholder.webp'
+import btnRandom from '../assets/btn-random.webp'
+import btnNext from '../assets/btn-next.webp'
 import { pickRandomCharacter } from '../data/randomCharacters'
 
 export type Selection =
@@ -79,7 +79,7 @@ export default function PhotoUploadStep({
         )}
         <p className="text-[26px] font-bold text-[#3a2110]">{promptText}</p>
         <p className="w-[274px] text-center text-[12px] text-[#a6743a]">
-          정면 얼굴 사진 권장 · JPG / PNG
+          전신 사진 권장 · JPG / PNG
         </p>
       </button>
 

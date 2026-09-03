@@ -108,21 +108,21 @@ export async function composeCharacterImage(characterUrl: string, data: Decorate
 
   if (data.favorite.trim()) {
     const text = `❤️ ${data.favorite.trim()}`
-    ctx.font = `bold ${Math.round(CANVAS_H * 0.026)}px 'Inter', sans-serif`
-    const maxW = CANVAS_W * 0.32
-    const padX = CANVAS_H * 0.018
-    const padY = CANVAS_H * 0.014
+    ctx.font = `bold ${Math.round(CANVAS_H * 0.03)}px 'Inter', sans-serif`
+    const maxW = CANVAS_W * 0.35
+    const padX = CANVAS_H * 0.021
+    const padY = CANVAS_H * 0.016
     const metrics = ctx.measureText(text)
     const bubbleW = Math.min(metrics.width, maxW) + padX * 2
-    const bubbleH = CANVAS_H * 0.026 + padY * 2
+    const bubbleH = CANVAS_H * 0.03 + padY * 2
     const bubbleX = CANVAS_W * 0.59
     const bubbleY = CANVAS_H * 0.02
 
     ctx.fillStyle = '#ffffff'
     ctx.strokeStyle = '#3a2110'
     ctx.lineWidth = CANVAS_H * 0.006
-    const tailW = CANVAS_H * 0.018
-    const tailH = CANVAS_H * 0.016
+    const tailW = CANVAS_H * 0.021
+    const tailH = CANVAS_H * 0.018
     speechBubblePath(ctx, bubbleX, bubbleY, bubbleW, bubbleH, 10, bubbleW * 0.12, tailW, tailH)
     ctx.fill()
     ctx.stroke()

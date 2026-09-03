@@ -5,8 +5,8 @@ import PhotoUploadStep, { type Selection } from './components/PhotoUploadStep'
 import ConvertingStep from './components/ConvertingStep'
 import DecorateStep, { type DecorateData } from './components/DecorateStep'
 import DownloadStep from './components/DownloadStep'
-import bgScene from './assets/bg-scene.png'
-import btnHome from './assets/btn-home.png'
+import bgScene from './assets/bg-scene.webp'
+import btnHome from './assets/btn-home.webp'
 
 type View = 'landing' | 'upload' | 'converting' | 'decorate' | 'download'
 
