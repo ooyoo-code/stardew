@@ -24,9 +24,11 @@ export default function DownloadStep({
   const fileName = `${data.name.trim() || '내캐릭터'}_스타듀밸리.png`
 
   // iOS Safari doesn't support the `download` attribute on blob links — clicking
-  // one just opens (or shares) the file instead of saving it quietly. Opening the
-  // image in a new tab there lets the user long-press → "이미지 저장" themselves,
-  // with no extra share sheet popping up on its own.
+  // one just opens (or shares) the file instead of saving it quietly, and there's
+  // no way for a web page to save a file with zero taps on iOS. The closest thing
+  // to a direct download there is the native share sheet's "이미지 저장" button
+  // (one tap, saves straight to Photos), so the download button routes through
+  // navigator.share on iOS instead of opening a new tab that needs a long-press.
   const isIOS = () =>
     /iP(hone|od|ad)/.test(navigator.userAgent) ||
     (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
@@ -50,6 +52,22 @@ export default function DownloadStep({
     setMessage(null)
     try {
       const blob = await composeCharacterImage(characterUrl, data)
+
+      if (isIOS() && navigator.share) {
+        const file = new File([blob], fileName, { type: 'image/png' })
+        const shareData = { files: [file] }
+        if (!navigator.canShare || navigator.canShare(shareData)) {
+          try {
+            await navigator.share(shareData)
+            return
+          } catch (err) {
+            if (err instanceof DOMException && err.name === 'AbortError') return
+            // navigator.share failed for some other reason — fall through to the
+            // new-tab long-press fallback below instead of surfacing an error.
+          }
+        }
+      }
+
       downloadBlob(blob)
       setMessage(isIOS() ? 'opened-ios' : null)
     } catch {
