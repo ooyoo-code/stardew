@@ -103,9 +103,9 @@ export default function LandingStep({ onStart }: { onStart: () => void }) {
           href="https://docs.google.com/forms/d/e/1FAIpQLSc9lyVQM1Q8uREsulopBc--9iBxikNgrT43qN59iMdCtu4gvg/viewform?usp=dialog"
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="설문 이벤트 · 타임캡슐"
+          aria-label="설문 이벤트 · 미래의 나에게 보내는 편지"
           className="absolute flex items-center justify-center animate-[float-updown_2.6s_ease-in-out_infinite]"
-          style={{ left: '3%', top: '61%', width: '34%', height: '20%' }}
+          style={{ left: '1%', top: '64%', width: '38%', height: '16%' }}
         >
           <img src={eventBtnSurvey} alt="" className="size-full object-contain" />
         </a>
