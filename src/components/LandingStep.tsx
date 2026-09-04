@@ -103,7 +103,7 @@ export default function LandingStep({ onStart }: { onStart: () => void }) {
           href="https://docs.google.com/forms/d/e/1FAIpQLSc9lyVQM1Q8uREsulopBc--9iBxikNgrT43qN59iMdCtu4gvg/viewform?usp=dialog"
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="설문 이벤트"
+          aria-label="설문 이벤트 · 미래의 나에게 보내는 편지"
           className="absolute flex items-center justify-center animate-[float-updown_2.6s_ease-in-out_infinite]"
           style={{ left: '2%', top: '65%', width: '29%', height: '14.5%' }}
         >
