@@ -105,7 +105,7 @@ export default function LandingStep({ onStart }: { onStart: () => void }) {
           rel="noopener noreferrer"
           aria-label="설문 이벤트 · 미래의 나에게 보내는 편지"
           className="absolute flex items-center justify-center animate-[float-updown_2.6s_ease-in-out_infinite]"
-          style={{ left: '1%', top: '64%', width: '38%', height: '16%' }}
+          style={{ left: '1%', top: '62%', width: '36%', height: '18%' }}
         >
           <img src={eventBtnSurvey} alt="" className="size-full object-contain" />
         </a>
