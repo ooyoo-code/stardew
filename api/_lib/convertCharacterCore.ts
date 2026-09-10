@@ -100,7 +100,7 @@ export async function convertCharacterCore(
 
   if (!geminiRes.ok) {
     const errText = await geminiRes.text()
-    return { ok: false, status: geminiRes.status, error: `Gemini API 오류: ${errText}` }
+    return { ok: false as const, status: geminiRes.status, error: `Gemini API 오류: ${errText}` }
   }
 
   const data = (await geminiRes.json()) as {
@@ -110,7 +110,7 @@ export async function convertCharacterCore(
   const imagePart = parts.find((p) => p.inlineData?.data)
 
   if (!imagePart?.inlineData?.data) {
-    return { ok: false, status: 502, error: '변환된 이미지를 받지 못했어요. 다시 시도해주세요.' }
+    return { ok: false as const, status: 502, error: '변환된 이미지를 받지 못했어요. 다시 시도해주세요.' }
   }
 
   const resultMimeType = imagePart.inlineData.mimeType ?? 'image/png'
@@ -125,5 +125,5 @@ export async function convertCharacterCore(
     }
   }
 
-  return { ok: true, imageBase64: resultBase64, mimeType: resultMimeType }
+  return { ok: true as const, imageBase64: resultBase64, mimeType: resultMimeType }
 }
