@@ -1,18 +1,10 @@
 import { pets } from '../data/pets'
 import { backgrounds } from '../data/backgrounds'
+import { getContentBoundsFrac, loadImageEl } from './imageContentBounds'
 import type { DecorateData } from '../components/DecorateStep'
 
 const CANVAS_W = 1200
 const CANVAS_H = 1200
-
-function loadImage(src: string): Promise<HTMLImageElement> {
-  return new Promise((resolve, reject) => {
-    const img = new Image()
-    img.onload = () => resolve(img)
-    img.onerror = reject
-    img.src = src
-  })
-}
 
 function drawCover(ctx: CanvasRenderingContext2D, img: HTMLImageElement, w: number, h: number) {
   const scale = Math.max(w / img.width, h / img.height)
@@ -62,9 +54,9 @@ function speechBubblePath(
 
 export async function composeCharacterImage(characterUrl: string, data: DecorateData): Promise<Blob> {
   const [bg, character, pet] = await Promise.all([
-    loadImage(backgrounds[data.bgIdx].image),
-    loadImage(characterUrl),
-    loadImage(pets[data.petIdx].image),
+    loadImageEl(backgrounds[data.bgIdx].image),
+    loadImageEl(characterUrl),
+    loadImageEl(pets[data.petIdx].image),
   ])
 
   const canvas = document.createElement('canvas')
@@ -82,10 +74,26 @@ export async function composeCharacterImage(characterUrl: string, data: Decorate
   const charY = CANVAS_H * 0.94 - charH
   ctx.drawImage(character, charX, charY, charW, charH)
 
+  // The AI-generated character and the fixed pet art are both square canvases with their
+  // own (inconsistent) amount of transparent padding around the actual subject, so a plain
+  // percentage offset from the raw image edges can't reliably keep the two apart — it either
+  // overlaps the character's body or leaves a big gap, depending on how much padding that
+  // particular sprite happens to have. Using each image's real content box instead means the
+  // pet always ends up standing at a small, fixed gap from the character's actual silhouette,
+  // feet on the same ground line, regardless of padding differences.
+  const charBounds = getContentBoundsFrac(character)
+  const petBounds = getContentBoundsFrac(pet)
+
   const petH = charH * (85 / 210)
   const petW = petH * (pet.width / pet.height)
-  const petX = charX - petW * 0.1
-  const petY = charY + charH - petH + petH * 0.02
+
+  const charContentLeftPx = charX + charBounds.left * charW
+  const gapPx = charW * 0.03
+  const petX = charContentLeftPx - gapPx - petBounds.right * petW
+
+  const charContentBottomPx = charY + charBounds.bottom * charH
+  const petY = charContentBottomPx - petBounds.bottom * petH
+
   ctx.drawImage(pet, petX, petY, petW, petH)
 
   if (data.name.trim()) {

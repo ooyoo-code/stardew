@@ -7,6 +7,7 @@ import btnNext from '../assets/btn-next.webp'
 import { cycle } from '../data/customizeOptions'
 import { pets } from '../data/pets'
 import { backgrounds } from '../data/backgrounds'
+import { getContentBoundsFrac, loadImageEl } from '../lib/imageContentBounds'
 
 export type DecorateData = {
   name: string
@@ -104,6 +105,38 @@ export default function DecorateStep({
 
   useEffect(() => () => timeouts.current.forEach(clearTimeout), [])
 
+  // The character sprite and pet art are both square canvases with their own (inconsistent)
+  // amount of transparent padding around the actual subject, so a plain percentage nudge
+  // can't reliably keep them from overlapping — it either overlaps the character's body or
+  // leaves a big gap, depending on how much padding that particular sprite has. This measures
+  // each image's real content box and re-positions the pet from there, matching the same
+  // approach used for the downloaded image in composeCharacterImage.ts.
+  const [petOffset, setPetOffset] = useState<{ x: number; y: number } | null>(null)
+  useEffect(() => {
+    setPetOffset(null)
+    let cancelled = false
+    Promise.all([loadImageEl(baseImage), loadImageEl(pets[petIdx].image)])
+      .then(([charImg, petImg]) => {
+        if (cancelled) return
+        const charBounds = getContentBoundsFrac(charImg)
+        const petBounds = getContentBoundsFrac(petImg)
+
+        const CHAR_H_DOM = 210
+        const PET_H_DOM = 85
+        const charW = CHAR_H_DOM * (charImg.naturalWidth / charImg.naturalHeight)
+        const petW = PET_H_DOM * (petImg.naturalWidth / petImg.naturalHeight)
+
+        const gap = charW * 0.03
+        const x = charBounds.left * charW - gap - petBounds.right * petW
+        const y = (1 - petBounds.bottom) * PET_H_DOM - (1 - charBounds.bottom) * CHAR_H_DOM
+        setPetOffset({ x, y })
+      })
+      .catch(() => setPetOffset(null))
+    return () => {
+      cancelled = true
+    }
+  }, [baseImage, petIdx])
+
   const handleSubmit = () => {
     setAnimPhase('reveal')
     timeouts.current.push(
@@ -152,7 +185,10 @@ export default function DecorateStep({
           />
           {animPhase === 'reveal' && <PixelTiles cols={8} rows={9} />}
 
-          <div className="absolute bottom-0 left-0 translate-x-[-10%] translate-y-[2%]">
+          <div
+            className="absolute bottom-0 left-0 translate-x-[-10%] translate-y-[2%]"
+            style={petOffset ? { transform: `translate(${petOffset.x}px, ${petOffset.y}px)` } : undefined}
+          >
             <div className="relative">
               <img
                 src={pets[petIdx].image}
