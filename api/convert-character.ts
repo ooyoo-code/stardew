@@ -1,14 +1,23 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { PNG } from 'pngjs'
+import { STYLE_REFERENCE_BASE64, STYLE_REFERENCE_MIME_TYPE } from './_lib/styleReference'
 
 const GEMINI_MODEL = 'gemini-2.5-flash-image'
 const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`
 
-const STYLE_PROMPT = `Turn this photo into a single FULL-BODY character sprite in the exact pixel-art style of the farming game Stardew Valley: 16-bit, chibi proportions (slightly oversized head, small simple body), simple flat colors, thick black outlines.
+const STYLE_PROMPT = `You will get two images: a STYLE REFERENCE sprite, then a photo of a real person.
 
-Framing: show the ENTIRE body from head to feet, standing straight, facing forward, centered in the frame with a small even margin on all sides — like a character-select portrait. Do NOT crop to just the head/shoulders.
+Your job: redraw the person from the photo as a single FULL-BODY character sprite that follows the STYLE REFERENCE's art style and proportions EXACTLY, so that every character generated this way looks like part of the same consistent set. Do not vary the style, proportions, or level of detail from the reference — only the person's likeness changes.
 
-Likeness: study the photo carefully and match the person's actual features as closely as pixel art allows — hair color, hair length and style, skin tone, face shape, and any distinctive features (glasses, facial hair, hairstyle accessories, etc.). The result should be recognizable as that specific person, not a generic character.
+Match from the reference, precisely:
+- Proportions: same chibi head-to-body ratio (the head is a large simple rounded shape, roughly 2.2–2.4 head-heights make up the full body height), same simple small limbs.
+- Outline: the same uniform thick black outline weight around the whole silhouette and between major color areas.
+- Face: simple round/oval eyes as flat single-tone shapes with one small white highlight each, NO visible nose (at most a single tiny dot/mark), a small closed or neutral flat-line mouth. Do not add detailed irises, eyelashes, nose shading, or lip shading — keep faces exactly as simple as the reference.
+- Shading: flat cel-shaded colors with at most one darker shadow tone per color area — no gradients, no soft airbrushed shading, no photographic texture.
+- Pose and framing: standing straight, facing forward, arms relaxed at sides, centered with a small even margin on all sides, entire body visible from head to feet — like a character-select portrait. Do NOT crop to just the head/shoulders.
+
+Take from the photo ONLY:
+- Hair color, length, and style; skin tone; face shape; and any distinctive features (glasses, facial hair, accessories); clothing colors/type if visible. The result should be recognizable as that specific person — but drawn with the reference's exact style and proportions, not the reference's hairstyle or outfit.
 
 Background: render on a solid plain white background (#FFFFFF) only — no scenery, no ground, no shadow, no gradient, no texture.
 
@@ -89,6 +98,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           {
             parts: [
               { text: STYLE_PROMPT },
+              { inlineData: { mimeType: STYLE_REFERENCE_MIME_TYPE, data: STYLE_REFERENCE_BASE64 } },
               { inlineData: { mimeType: body.mimeType, data: body.imageBase64 } },
             ],
           },
