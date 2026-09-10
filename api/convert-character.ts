@@ -25,8 +25,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const result = await convertCharacterCore(apiKey, body.imageBase64, body.mimeType)
 
-    if (!result.ok) {
-      res.status(result.status).json({ error: result.error })
+    if (result.error || !result.imageBase64 || !result.mimeType) {
+      res.status(result.status).json({ error: result.error ?? '알 수 없는 오류' })
       return
     }
 

@@ -48,10 +48,10 @@ export function geminiConvertPlugin(): Plugin {
 
           const result = await convertCharacterCore(apiKey, body.imageBase64, body.mimeType)
 
-          if (!result.ok) {
+          if (result.error || !result.imageBase64 || !result.mimeType) {
             res.statusCode = result.status
             res.setHeader('Content-Type', 'application/json')
-            res.end(JSON.stringify({ error: result.error }))
+            res.end(JSON.stringify({ error: result.error ?? '알 수 없는 오류' }))
             return
           }
 

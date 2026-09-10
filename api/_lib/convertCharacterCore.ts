@@ -67,9 +67,17 @@ function cutOutWhiteBackground(pngBuffer: Buffer): Buffer {
   return PNG.sync.write(png)
 }
 
-export type ConvertResult =
-  | { ok: true; imageBase64: string; mimeType: string }
-  | { ok: false; status: number; error: string }
+// A plain (non-discriminated-union) result shape — Vercel's per-function type-check
+// step doesn't seem to resolve a discriminated union re-exported from a sibling module
+// correctly (it kept reporting `ok` as plain `boolean` even with literal types pinned
+// via `as const`), so this sidesteps that entirely: `error` is set only on failure,
+// and callers branch on that instead of narrowing `ok`.
+export type ConvertResult = {
+  status: number
+  error: string | null
+  imageBase64: string | null
+  mimeType: string | null
+}
 
 /**
  * Shared core used by both the Vercel function (api/convert-character.ts, production)
@@ -100,7 +108,12 @@ export async function convertCharacterCore(
 
   if (!geminiRes.ok) {
     const errText = await geminiRes.text()
-    return { ok: false as const, status: geminiRes.status, error: `Gemini API 오류: ${errText}` }
+    return {
+      status: geminiRes.status,
+      error: `Gemini API 오류: ${errText}`,
+      imageBase64: null,
+      mimeType: null,
+    }
   }
 
   const data = (await geminiRes.json()) as {
@@ -110,7 +123,12 @@ export async function convertCharacterCore(
   const imagePart = parts.find((p) => p.inlineData?.data)
 
   if (!imagePart?.inlineData?.data) {
-    return { ok: false as const, status: 502, error: '변환된 이미지를 받지 못했어요. 다시 시도해주세요.' }
+    return {
+      status: 502,
+      error: '변환된 이미지를 받지 못했어요. 다시 시도해주세요.',
+      imageBase64: null,
+      mimeType: null,
+    }
   }
 
   const resultMimeType = imagePart.inlineData.mimeType ?? 'image/png'
@@ -125,5 +143,5 @@ export async function convertCharacterCore(
     }
   }
 
-  return { ok: true as const, imageBase64: resultBase64, mimeType: resultMimeType }
+  return { status: 200, error: null, imageBase64: resultBase64, mimeType: resultMimeType }
 }
