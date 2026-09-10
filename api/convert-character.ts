@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { PNG } from 'pngjs'
-import { STYLE_REFERENCE_BASE64, STYLE_REFERENCE_MIME_TYPE } from './_lib/styleReference'
+import { STYLE_REFERENCE_BASE64, STYLE_REFERENCE_MIME_TYPE } from './_lib/styleReference.js'
 
 const GEMINI_MODEL = 'gemini-2.5-flash-image'
 const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`
