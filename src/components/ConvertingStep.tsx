@@ -2,6 +2,12 @@ import { useEffect, useRef, useState } from 'react'
 import leafOutlineIcon from '../assets/icon-leaf-outline.svg'
 import { convertPhotoToCharacter } from '../lib/convertCharacter'
 
+// Roughly how long a real conversion takes — the bar rises in a steady, uniform line
+// across this whole window instead of rushing to ~90% in a couple seconds and then
+// sitting frozen while the actual request is still in flight.
+const ESTIMATED_MS = 11_000
+const RAMP_CAP = 90
+
 export default function ConvertingStep({
   file,
   onDone,
@@ -21,9 +27,20 @@ export default function ConvertingStep({
     setError(null)
     setProgress(6)
 
+    const startedAt = Date.now()
     const tick = setInterval(() => {
-      setProgress((p) => (p < 90 ? p + (90 - p) * 0.08 + 0.5 : p))
-    }, 180)
+      const elapsed = Date.now() - startedAt
+      if (elapsed <= ESTIMATED_MS) {
+        // Straight line from 0 to RAMP_CAP over the estimated duration — a steady,
+        // predictable climb for the typical case.
+        setProgress(6 + (elapsed / ESTIMATED_MS) * (RAMP_CAP - 6))
+      } else {
+        // Slower than expected: keep creeping forward instead of freezing, easing
+        // toward (but never quite reaching) 99% so it still reads as "still working."
+        const overtime = elapsed - ESTIMATED_MS
+        setProgress(RAMP_CAP + (1 - Math.exp(-overtime / 8000)) * 9)
+      }
+    }, 100)
 
     convertPhotoToCharacter(file)
       .then((resultUrl) => {

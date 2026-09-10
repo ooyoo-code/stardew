@@ -1,4 +1,4 @@
-const MAX_DIMENSION = 1024
+const MAX_DIMENSION = 768
 
 /**
  * Downscales the photo to a max dimension before upload. Phone photos can be
@@ -44,7 +44,7 @@ function resizeToBase64(file: File): Promise<{ base64: string; mimeType: string 
           reader.readAsDataURL(blob)
         },
         'image/jpeg',
-        0.85,
+        0.8,
       )
     }
     img.onerror = () => {
