@@ -1,6 +1,13 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { convertCharacterCore } from './_lib/convertCharacterCore.js'
 
+// A single Gemini call already takes ~10-12s, and convertCharacterCore can retry up to
+// twice more on transient errors — give this plenty of headroom so a retry sequence can't
+// get cut off by the platform's default function timeout.
+export const config = {
+  maxDuration: 60,
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method Not Allowed' })

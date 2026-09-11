@@ -79,6 +79,28 @@ export type ConvertResult = {
   mimeType: string | null
 }
 
+// Gemini occasionally returns 503/429 when the model is momentarily overloaded — these are
+// worth a couple of automatic retries (with a short pause) rather than immediately handing
+// the user a raw API error and making them tap "다시 시도하기" themselves. Kept modest so a
+// sustained outage still fails within the function's timeout instead of hanging.
+const MAX_ATTEMPTS = 3
+const RETRY_DELAYS_MS = [1500, 3000]
+
+function isRetryableStatus(status: number) {
+  return status === 503 || status === 429
+}
+
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+function friendlyErrorMessage(status: number, rawText: string): string {
+  if (status === 503) return '지금 변환 서버가 많이 붐벼요. 잠시 후 다시 시도해주세요.'
+  if (status === 429) return '요청이 몰려서 처리하지 못했어요. 잠시 후 다시 시도해주세요.'
+  console.error('Gemini API error', status, rawText)
+  return `변환 중 문제가 생겼어요. 다시 시도해주세요. (오류 코드 ${status})`
+}
+
 /**
  * Shared core used by both the Vercel function (api/convert-character.ts, production)
  * and the Vite dev-server plugin (plugins/geminiConvertPlugin.ts, local dev) — keeping
@@ -90,58 +112,70 @@ export async function convertCharacterCore(
   imageBase64: string,
   mimeType: string,
 ): Promise<ConvertResult> {
-  const geminiRes = await fetch(`${GEMINI_ENDPOINT}?key=${apiKey}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      contents: [
-        {
-          parts: [
-            { text: STYLE_PROMPT },
-            { inlineData: { mimeType: STYLE_REFERENCE_MIME_TYPE, data: STYLE_REFERENCE_BASE64 } },
-            { inlineData: { mimeType, data: imageBase64 } },
-          ],
-        },
-      ],
-    }),
-  })
-
-  if (!geminiRes.ok) {
-    const errText = await geminiRes.text()
-    return {
-      status: geminiRes.status,
-      error: `Gemini API 오류: ${errText}`,
-      imageBase64: null,
-      mimeType: null,
+  for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+    if (attempt > 0) {
+      await sleep(RETRY_DELAYS_MS[attempt - 1])
     }
-  }
 
-  const data = (await geminiRes.json()) as {
-    candidates?: { content?: { parts?: { inlineData?: { data?: string; mimeType?: string } }[] } }[]
-  }
-  const parts = data?.candidates?.[0]?.content?.parts ?? []
-  const imagePart = parts.find((p) => p.inlineData?.data)
+    const geminiRes = await fetch(`${GEMINI_ENDPOINT}?key=${apiKey}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [
+          {
+            parts: [
+              { text: STYLE_PROMPT },
+              { inlineData: { mimeType: STYLE_REFERENCE_MIME_TYPE, data: STYLE_REFERENCE_BASE64 } },
+              { inlineData: { mimeType, data: imageBase64 } },
+            ],
+          },
+        ],
+      }),
+    })
 
-  if (!imagePart?.inlineData?.data) {
-    return {
-      status: 502,
-      error: '변환된 이미지를 받지 못했어요. 다시 시도해주세요.',
-      imageBase64: null,
-      mimeType: null,
+    if (!geminiRes.ok) {
+      const errText = await geminiRes.text()
+      if (isRetryableStatus(geminiRes.status) && attempt < MAX_ATTEMPTS - 1) {
+        continue
+      }
+      return {
+        status: geminiRes.status,
+        error: friendlyErrorMessage(geminiRes.status, errText),
+        imageBase64: null,
+        mimeType: null,
+      }
     }
-  }
 
-  const resultMimeType = imagePart.inlineData.mimeType ?? 'image/png'
-  let resultBase64 = imagePart.inlineData.data
-
-  if (resultMimeType === 'image/png') {
-    try {
-      const cutOut = cutOutWhiteBackground(Buffer.from(resultBase64, 'base64'))
-      resultBase64 = cutOut.toString('base64')
-    } catch {
-      // If background removal fails for any reason, fall back to the raw image.
+    const data = (await geminiRes.json()) as {
+      candidates?: { content?: { parts?: { inlineData?: { data?: string; mimeType?: string } }[] } }[]
     }
+    const parts = data?.candidates?.[0]?.content?.parts ?? []
+    const imagePart = parts.find((p) => p.inlineData?.data)
+
+    if (!imagePart?.inlineData?.data) {
+      return {
+        status: 502,
+        error: '변환된 이미지를 받지 못했어요. 다시 시도해주세요.',
+        imageBase64: null,
+        mimeType: null,
+      }
+    }
+
+    const resultMimeType = imagePart.inlineData.mimeType ?? 'image/png'
+    let resultBase64 = imagePart.inlineData.data
+
+    if (resultMimeType === 'image/png') {
+      try {
+        const cutOut = cutOutWhiteBackground(Buffer.from(resultBase64, 'base64'))
+        resultBase64 = cutOut.toString('base64')
+      } catch {
+        // If background removal fails for any reason, fall back to the raw image.
+      }
+    }
+
+    return { status: 200, error: null, imageBase64: resultBase64, mimeType: resultMimeType }
   }
 
-  return { status: 200, error: null, imageBase64: resultBase64, mimeType: resultMimeType }
+  // Unreachable: the loop always returns on its last iteration.
+  return { status: 500, error: '알 수 없는 오류', imageBase64: null, mimeType: null }
 }
