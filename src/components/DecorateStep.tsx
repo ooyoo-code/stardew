@@ -8,6 +8,7 @@ import { cycle } from '../data/customizeOptions'
 import { pets } from '../data/pets'
 import { backgrounds } from '../data/backgrounds'
 import { getContentBoundsFrac, loadImageEl } from '../lib/imageContentBounds'
+import { getPetSlotBoundsFrac } from '../lib/petSlotBounds'
 
 export type DecorateData = {
   name: string
@@ -105,26 +106,29 @@ export default function DecorateStep({
 
   useEffect(() => () => timeouts.current.forEach(clearTimeout), [])
 
-  // The character sprite and pet art are both square canvases with their own (inconsistent)
+  // The character sprite is a square canvas with its own (inconsistent, per-request)
   // amount of transparent padding around the actual subject, so a plain percentage nudge
-  // can't reliably keep them from overlapping — it either overlaps the character's body or
-  // leaves a big gap, depending on how much padding that particular sprite has. This measures
-  // each image's real content box and re-positions the pet from there, matching the same
-  // approach used for the downloaded image in composeCharacterImage.ts.
+  // can't reliably keep the pet from overlapping it — it either overlaps the character's
+  // body or leaves a big gap, depending on how much padding that particular sprite has.
+  // This measures the character's real content box and positions the pet from there,
+  // matching the same approach used for the downloaded image in composeCharacterImage.ts.
+  //
+  // The pet itself uses a fixed slot shared by all four pets (getPetSlotBoundsFrac) rather
+  // than each pet's own bounds, and the effect depends only on baseImage — not petIdx — so
+  // cycling through pets swaps the artwork without the slot itself moving.
   const [petOffset, setPetOffset] = useState<{ x: number; y: number } | null>(null)
   useEffect(() => {
     setPetOffset(null)
     let cancelled = false
-    Promise.all([loadImageEl(baseImage), loadImageEl(pets[petIdx].image)])
-      .then(([charImg, petImg]) => {
+    Promise.all([loadImageEl(baseImage), getPetSlotBoundsFrac()])
+      .then(([charImg, petBounds]) => {
         if (cancelled) return
         const charBounds = getContentBoundsFrac(charImg)
-        const petBounds = getContentBoundsFrac(petImg)
 
         const CHAR_H_DOM = 210
         const PET_H_DOM = 85
         const charW = CHAR_H_DOM * (charImg.naturalWidth / charImg.naturalHeight)
-        const petW = PET_H_DOM * (petImg.naturalWidth / petImg.naturalHeight)
+        const petW = PET_H_DOM // all pet art is a square canvas
 
         const gap = charW * 0.03
         const x = charBounds.left * charW - gap - petBounds.right * petW
@@ -135,7 +139,7 @@ export default function DecorateStep({
     return () => {
       cancelled = true
     }
-  }, [baseImage, petIdx])
+  }, [baseImage])
 
   const handleSubmit = () => {
     setAnimPhase('reveal')

@@ -1,6 +1,7 @@
 import { pets } from '../data/pets'
 import { backgrounds } from '../data/backgrounds'
 import { getContentBoundsFrac, loadImageEl } from './imageContentBounds'
+import { getPetSlotBoundsFrac } from './petSlotBounds'
 import type { DecorateData } from '../components/DecorateStep'
 
 const CANVAS_W = 1200
@@ -74,15 +75,16 @@ export async function composeCharacterImage(characterUrl: string, data: Decorate
   const charY = CANVAS_H * 0.94 - charH
   ctx.drawImage(character, charX, charY, charW, charH)
 
-  // The AI-generated character and the fixed pet art are both square canvases with their
-  // own (inconsistent) amount of transparent padding around the actual subject, so a plain
-  // percentage offset from the raw image edges can't reliably keep the two apart — it either
-  // overlaps the character's body or leaves a big gap, depending on how much padding that
-  // particular sprite happens to have. Using each image's real content box instead means the
-  // pet always ends up standing at a small, fixed gap from the character's actual silhouette,
-  // feet on the same ground line, regardless of padding differences.
+  // The AI-generated character is a square canvas with its own (inconsistent, per-request)
+  // amount of transparent padding around the actual subject, so a plain percentage offset
+  // from the raw image edges can't reliably keep the pet apart from it — it either overlaps
+  // the character's body or leaves a big gap, depending on how much padding that particular
+  // sprite happens to have. Using the character's real content box means the pet always ends
+  // up at a small, fixed gap from the character's actual silhouette, feet on the same ground
+  // line. The pet's own position uses the shared slot bounds (not this specific pet's own
+  // bounds) so the slot stays put and only the artwork inside it changes between pets.
   const charBounds = getContentBoundsFrac(character)
-  const petBounds = getContentBoundsFrac(pet)
+  const petBounds = await getPetSlotBoundsFrac()
 
   const petH = charH * (85 / 210)
   const petW = petH * (pet.width / pet.height)
